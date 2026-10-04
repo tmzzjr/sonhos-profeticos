@@ -1,0 +1,1112 @@
+<title>Sonhos e Preços Proféticos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wdth,wght@75..100,400..700&display=swap">
+<style>
+/* Layout: céu noturno para a linha do tempo (cada sonho é uma estrela), superfícies claras de leitura para listas e preços; ouro só para seleção e foco. */
+:root{
+  --paper:#f2f3f7; --surface:#ffffff; --wash:#e6e8f0; --wash-2:#dadded;
+  --ink:#141833; --ink-2:#4a5070; --ink-3:#7d839e;
+  --night:#0f1431; --night-band:#141a3d; --night-ink:#e8eaf7; --night-ink-2:#9aa1c6; --night-grid:rgba(232,234,247,.07);
+  --star:#c3c9ea; --gold:#d69a21; --gold-ink:#8a5c06; --gold-wash:rgba(214,154,33,.16);
+  --good:#1f9a5c; --bad:#d9463e; --part:#d58a12;
+  --good-n:#43c987; --bad-n:#ff6f66; --part-n:#f3b748;
+  --line:#5b6284;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s8:#e34948; --s0:#8a8fa6;
+  --a1:#2a6fd0; --a2:#d0443b; --a3:#b77c00; --a1-w:rgba(42,111,208,.10); --a2-w:rgba(208,68,59,.09); --a3-w:rgba(194,132,0,.12);
+  --font:"Instrument Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:10px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#0a0d1c; --surface:#121731; --wash:#1a2042; --wash-2:#232a52;
+  --ink:#e8eaf6; --ink-2:#adb3d0; --ink-3:#767d9e;
+  --night:#121838; --night-band:#171e45; --night-grid:rgba(232,234,247,.06);
+  --gold:#e6ad45; --gold-ink:#f2c56a; --gold-wash:rgba(230,173,69,.18);
+  --good:#3cbf7c; --bad:#f2675e; --part:#eaa83a; --line:#9aa1c6;
+  --a1:#5b97ea; --a2:#ee6a60; --a3:#e2a63a; --a1-w:rgba(91,151,234,.15); --a2-w:rgba(238,106,96,.14); --a3-w:rgba(226,166,58,.16);
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767; --s0:#767c98;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0a0d1c; --surface:#121731; --wash:#1a2042; --wash-2:#232a52;
+  --ink:#e8eaf6; --ink-2:#adb3d0; --ink-3:#767d9e;
+  --night:#121838; --night-band:#171e45; --night-grid:rgba(232,234,247,.06);
+  --gold:#e6ad45; --gold-ink:#f2c56a; --gold-wash:rgba(230,173,69,.18);
+  --good:#3cbf7c; --bad:#f2675e; --part:#eaa83a; --line:#9aa1c6;
+  --a1:#5b97ea; --a2:#ee6a60; --a3:#e2a63a; --a1-w:rgba(91,151,234,.15); --a2-w:rgba(238,106,96,.14); --a3-w:rgba(226,166,58,.16);
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767; --s0:#767c98;
+  color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--paper);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+h1,h2,h3{text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,4.4vw,48px);font-weight:700;letter-spacing:-.025em;line-height:1.05;font-stretch:92%}
+h2{font-size:clamp(22px,2.6vw,30px);font-weight:700;letter-spacing:-.02em;line-height:1.15}
+h3{font-size:17px;font-weight:650;letter-spacing:-.01em}
+p{margin:0}
+a{color:inherit;text-decoration-color:color-mix(in srgb,currentColor 35%,transparent);text-underline-offset:3px}
+a:hover{text-decoration-color:currentColor}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.muted{color:var(--ink-3)}
+.sub{color:var(--ink-2)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Cabeçalho */
+header.top{display:grid;gap:18px;padding-block:8px 34px;max-width:860px}
+.lede{font-size:18px;color:var(--ink-2);max-width:68ch}
+.lede b{color:var(--ink);font-weight:650}
+.facts{display:flex;flex-wrap:wrap;gap:8px 22px;color:var(--ink-2);font-size:14px}
+.facts b{color:var(--ink);font-size:20px;font-weight:700;letter-spacing:-.01em;margin-right:4px}
+nav.jump{display:flex;flex-wrap:wrap;gap:8px}
+nav.jump a{background:var(--wash);border-radius:999px;padding:7px 14px;text-decoration:none;font-weight:550;font-size:14px}
+nav.jump a:hover{background:var(--wash-2)}
+
+section.block{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:30px 10px;scroll-margin-top:12px}
+.head{display:grid;gap:6px;max-width:820px}
+.head p{color:var(--ink-2)}
+
+/* Filtros */
+.filters{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center}
+.search{flex:1 1 260px;min-width:0;max-width:420px;position:relative}
+.search input{width:100%;background:var(--surface);border:0;border-radius:var(--r);padding:10px 14px 10px 38px;box-shadow:inset 0 0 0 1.5px var(--wash-2)}
+.search input:focus{box-shadow:inset 0 0 0 2px var(--gold);outline:none}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink-3)}
+.seg{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.seg .lbl{font-size:13px;color:var(--ink-3);font-weight:550;margin-right:2px}
+.chip{border:0;background:var(--wash);border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:550;cursor:pointer;display:inline-flex;gap:6px;align-items:center;white-space:nowrap}
+.chip:hover{background:var(--wash-2)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.chip .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.chip .ct{opacity:.6;font-variant-numeric:tabular-nums}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 9px;font-size:12.5px;font-weight:600;background:var(--wash);color:var(--ink-2);white-space:nowrap}
+.pill.c{background:color-mix(in srgb,var(--good) 16%,transparent);color:var(--good)}
+.pill.f{background:color-mix(in srgb,var(--bad) 15%,transparent);color:var(--bad)}
+.pill.p{background:color-mix(in srgb,var(--part) 18%,transparent);color:var(--part)}
+.pill.gold{background:var(--gold-wash);color:var(--gold-ink)}
+.pill svg{flex:none}
+
+/* Céu: linha do tempo */
+.sky{background:var(--night);color:var(--night-ink);border-radius:14px;padding:18px 18px 14px;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.sky-bar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between}
+.sky .seg .lbl{color:var(--night-ink-2)}
+.sky .chip{background:rgba(232,234,247,.08);color:var(--night-ink)}
+.sky .chip:hover{background:rgba(232,234,247,.15)}
+.sky .chip[aria-pressed="true"]{background:var(--night-ink);color:var(--night)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--night-ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.scroller{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+#tl{min-width:720px}
+#tl svg{display:block}
+.tl-note{font-size:13px;color:var(--night-ink-2)}
+.tl-note b{color:var(--night-ink)}
+
+/* Tooltip */
+#tip{position:fixed;z-index:30;pointer-events:none;max-width:340px;background:var(--surface);color:var(--ink);border-radius:var(--r);padding:10px 12px;font-size:13.5px;line-height:1.4;box-shadow:0 10px 30px rgba(10,14,40,.28);display:grid;gap:4px}
+#tip .t1{font-weight:650}
+#tip .t2{color:var(--ink-2)}
+#tip .t3{color:var(--ink-3);font-size:12.5px}
+
+/* Lista + profetas */
+.two{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:28px;align-items:start}
+.list-head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+.month{display:grid;gap:4px;padding-block:14px 4px}
+.month>h3{font-size:15px;color:var(--ink-2);font-weight:650;position:sticky;top:62px;background:var(--paper);padding-block:6px;z-index:2}
+.entry{display:grid;grid-template-columns:86px minmax(0,1fr);gap:4px 16px;padding:12px 12px;border-radius:var(--r);cursor:pointer}
+.entry:hover{background:var(--wash)}
+.entry.sel{background:var(--gold-wash)}
+.entry .when{font-size:13.5px;color:var(--ink-3);font-variant-numeric:tabular-nums;padding-top:2px}
+.entry .body{display:grid;gap:5px;min-width:0}
+.entry .who{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.entry .who b{font-weight:650}
+.entry .res{color:var(--ink-2)}
+.entry .tags{display:flex;flex-wrap:wrap;gap:6px}
+.more{justify-self:start;margin-top:12px}
+.btn{border:0;background:var(--ink);color:var(--paper);border-radius:var(--r);padding:9px 16px;font-weight:600;cursor:pointer}
+.btn.ghost{background:var(--wash);color:var(--ink)}
+.side{position:sticky;top:72px;display:grid;gap:10px;max-height:calc(100dvh - 24px);overflow:auto;padding-right:4px}
+.side h3{font-size:15px}
+.prow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;padding:7px 10px;border-radius:8px;cursor:pointer;border:0;background:none;text-align:left;width:100%}
+.prow:hover{background:var(--wash)}
+.prow[aria-pressed="true"]{background:var(--gold-wash)}
+.prow .nm{font-weight:550;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prow .ct{color:var(--ink-3);font-variant-numeric:tabular-nums;font-size:13.5px}
+.prow .bar{grid-column:1 / -1;height:4px;border-radius:4px;background:var(--wash-2);overflow:hidden}
+.prow .bar i{display:block;height:100%;background:var(--ink-3);border-radius:4px}
+.prow .bar i.f{background:var(--bad)}
+.empty{padding:24px 12px;color:var(--ink-3)}
+
+/* Prazos */
+.panel{background:var(--surface);border-radius:14px;padding:18px;display:grid;grid-template-columns:minmax(0,1fr)}
+.two>*{min-width:0}
+#dl svg{display:block}
+#dl-list{display:grid;gap:2px;margin-top:8px}
+
+/* Moedas */
+.assets{display:flex;flex-wrap:wrap;gap:6px}
+.asset-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px 24px;align-items:end}
+.asset-top .name{display:grid;gap:4px}
+.asset-top .name h3{font-size:clamp(22px,2.4vw,28px);font-weight:700;letter-spacing:-.02em}
+.stats{display:flex;flex-wrap:wrap;gap:6px 26px}
+.stat{display:grid;gap:0}
+.stat b{font-size:20px;font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--ink-3)}
+#pc svg{display:block}
+.ladder{display:grid;gap:4px}
+.rung{display:grid;grid-template-columns:150px minmax(0,1fr);gap:6px 18px;padding:12px;border-radius:var(--r)}
+.rung:nth-child(odd){background:color-mix(in srgb,var(--wash) 55%,transparent)}
+.rung.hl{background:var(--gold-wash)}
+.rung .pv{display:grid;align-content:start;gap:2px}
+.rung .pv b{font-size:19px;font-weight:700;letter-spacing:-.01em;font-variant-numeric:tabular-nums;word-break:break-all}
+.rung .pv span{font-size:12.5px;color:var(--ink-3)}
+.rung .ppl{display:grid;gap:6px;min-width:0}
+.person{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;width:100%;border:0;background:none;font:inherit;color:inherit;text-align:left;padding:6px 8px;margin:-6px -8px;border-radius:8px;cursor:pointer}
+.person:hover{background:var(--wash)}
+.person .go,.plist .it .go{margin-left:auto;font-size:12.5px;font-weight:600;color:var(--ink-3);white-space:nowrap}
+.back{border:0;background:var(--wash);border-radius:999px;padding:5px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;margin-bottom:8px}
+.back:hover{background:var(--wash-2)}
+.person b{font-weight:600}
+.person .d{color:var(--ink-3);font-size:13.5px;font-variant-numeric:tabular-nums}
+.person .n{color:var(--ink-2);font-size:14px;flex-basis:100%}
+.src-l{font-size:12px;color:var(--ink-3)}
+.ladder-tools{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
+
+/* Painel de detalhe */
+#drawer{position:fixed;z-index:40;top:12px;right:12px;bottom:12px;width:min(440px,calc(100vw - 24px));background:var(--surface);border-radius:14px;box-shadow:0 18px 50px rgba(10,14,40,.35);display:grid;grid-template-rows:auto minmax(0,1fr);overflow:hidden}
+#drawer .dh{display:flex;justify-content:space-between;gap:12px;align-items:start;padding:18px 18px 8px}
+#drawer .db{overflow:auto;padding:4px 18px 22px;display:grid;grid-template-columns:minmax(0,1fr);gap:14px;align-content:start}
+#drawer .pill{white-space:normal}
+#drawer .x{border:0;background:var(--wash);border-radius:999px;width:34px;height:34px;cursor:pointer;flex:none;display:grid;place-items:center}
+.kv{display:grid;grid-template-columns:110px minmax(0,1fr);gap:6px 12px;font-size:14px}
+.kv dt{color:var(--ink-3)}
+.kv dd{margin:0}
+blockquote{margin:0;padding:12px 14px;background:var(--wash);border-radius:var(--r);font-size:14.5px;color:var(--ink-2)}
+.prices{display:flex;flex-wrap:wrap;gap:6px}
+
+/* Fonte (barra fixa no topo) */
+.srcbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:25;background:var(--paper);padding-block:10px;margin-block:-6px 4px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.srcbar .lbl{font-size:13px;color:var(--ink-3);font-weight:600}
+.srcseg{display:inline-flex;flex-wrap:wrap;gap:4px;background:var(--wash);border-radius:12px;padding:4px}
+.srcseg button{border:0;background:none;border-radius:9px;padding:7px 14px;font:inherit;font-size:14px;font-weight:600;color:var(--ink-2);cursor:pointer;display:inline-flex;gap:7px;align-items:baseline}
+.srcseg button span{font-size:12.5px;font-weight:500;opacity:.7;font-variant-numeric:tabular-nums}
+.srcseg button:hover{color:var(--ink)}
+.srcbar .lang{margin-left:auto}
+.srcseg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(10,14,40,.12)}
+
+/* Timeline de acontecimentos futuros */
+.fc-top{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between}
+#fc{min-width:720px}
+#fc svg{display:block}
+.fc-coins .chip[aria-pressed="false"]{opacity:.55}
+.fc-coins .chip[aria-pressed="true"]{background:var(--wash);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink-3)}
+#tip .row{display:flex;gap:8px;align-items:baseline;justify-content:space-between}
+#tip .row i{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none;transform:translateY(1px)}
+#tip .row span{display:inline-flex;gap:6px;align-items:baseline}
+#tip .row em{font-style:normal;color:var(--ink-3);font-size:12px}
+.paths{display:grid;gap:10px}
+.path{display:grid;grid-template-columns:150px minmax(0,1fr);gap:10px 18px;align-items:center;background:var(--surface);border-radius:14px;padding:14px 16px}
+.path .cn{display:grid;gap:1px}
+.path .cn b{font-size:18px;font-weight:700;letter-spacing:-.01em}
+.path .cn span{font-size:12.5px;color:var(--ink-3)}
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:8px 6px;min-width:0}
+.step{border:0;border-radius:12px;padding:8px 12px;display:grid;gap:0;text-align:left;cursor:pointer;background:var(--sw);color:var(--ink);font:inherit}
+.step:hover{filter:brightness(.97)}
+.step small{font-size:11.5px;font-weight:700;color:var(--sc);white-space:nowrap}
+.step b{font-size:18px;font-weight:700;letter-spacing:-.012em;white-space:nowrap}
+.step span{font-size:12px;color:var(--ink-2);white-space:nowrap}
+.step.now{background:var(--wash);cursor:default}
+.step.now:hover{filter:none}
+.chain .arw{color:var(--ink-3);flex:none}
+@media (max-width:640px){ .chain{flex-direction:column;align-items:stretch} .chain .arw{transform:rotate(90deg);align-self:flex-start;margin-left:18px} .step b,.step span,.step small{white-space:normal} }
+.events{position:relative;display:grid;gap:14px;padding-left:40px}
+.events::before{content:"";position:absolute;left:13px;top:18px;bottom:18px;width:4px;border-radius:4px;background:var(--wash-2)}
+.ev{position:relative;background:var(--surface);border-radius:14px;padding:18px 20px;display:grid;gap:12px}
+.ev .node{position:absolute;left:-40px;top:16px;width:30px;height:30px;border-radius:50%;background:var(--sc);color:#fff;font-weight:700;font-size:14px;display:grid;place-items:center;box-shadow:0 0 0 5px var(--paper)}
+.ev .eh{display:grid;gap:4px}
+.ev .eh small{font-size:12.5px;font-weight:700;color:var(--sc)}
+.ev .eh h3{font-size:21px;letter-spacing:-.018em}
+.ev .eh p{color:var(--ink-2);max-width:70ch}
+.moves{display:grid;gap:2px}
+.move{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;border:0;background:none;padding:7px 10px;border-radius:10px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.move:hover{background:var(--wash)}
+.move b{font-weight:650;min-width:92px}
+.move .to{font-weight:700}
+.move .meta{font-size:13px;color:var(--ink-3)}
+.ex{display:grid;gap:2px}
+.ex button{border:0;background:none;text-align:left;padding:8px 10px;border-radius:10px;cursor:pointer;font:inherit;color:inherit;display:grid;gap:2px}
+.ex button:hover{background:var(--wash)}
+.ex .w{font-size:13.5px;color:var(--ink-3)} .ex .w b{color:var(--ink);font-weight:650}
+.ex .t{color:var(--ink-2);font-size:14.5px}
+.ordq{font-size:14px;color:var(--ink-2);background:var(--sw);border-radius:10px;padding:10px 12px}
+.ordq b{color:var(--ink)}
+.lnk{border:0;background:none;color:var(--ink);font-weight:600;cursor:pointer;padding:4px 10px;justify-self:start;text-decoration:underline;text-decoration-color:color-mix(in srgb,currentColor 35%,transparent);text-underline-offset:3px;font:inherit}
+.plist{display:grid;gap:4px}
+.plist .it{display:grid;gap:2px;padding:9px 10px;margin-inline:-10px;border:0;background:none;font:inherit;color:inherit;text-align:left;border-radius:10px;cursor:pointer;width:calc(100% + 20px)}
+.plist .it:hover{background:var(--wash)}
+.plist .it .w{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.plist .it .w b{font-weight:650}
+.plist .it .w .v{font-weight:700}
+.plist .it .n{font-size:14px;color:var(--ink-2)}
+@media (max-width:640px){ .path{grid-template-columns:minmax(0,1fr)} .events{padding-left:32px} .events::before{left:9px} .ev .node{left:-32px;width:26px;height:26px;font-size:12.5px} }
+
+footer.notes{display:grid;gap:12px;padding-block:44px 8px;color:var(--ink-2);font-size:14px;max-width:820px}
+footer.notes h2{font-size:20px;color:var(--ink)}
+footer.notes ul{margin:0;padding-left:18px;display:grid;gap:6px}
+
+@media (max-width:900px){
+  .two{grid-template-columns:minmax(0,1fr)}
+  .side{position:static;max-height:none}
+  .asset-top{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  .wrap{padding-inline:16px}
+  .entry{grid-template-columns:minmax(0,1fr)}
+  .rung{grid-template-columns:minmax(0,1fr)}
+  .sky{padding:14px 12px 12px;border-radius:12px}
+  .kv{grid-template-columns:minmax(0,1fr)}
+  #drawer{top:auto;left:8px;right:8px;bottom:8px;width:auto;max-height:78dvh}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1 data-en="Prophetic dreams and prices">Sonhos e preços proféticos</h1>
+    <p class="lede" id="lede"></p>
+    <div class="facts" id="facts"></div>
+    <nav class="jump" aria-label="Seções">
+      <a href="#futuro" data-en="Future events">Acontecimentos futuros</a>
+      <a href="#linha" data-en="Timeline">Linha do tempo</a>
+      <a href="#prazos" data-en="Deadlines">Prazos marcados</a>
+      <a href="#moedas" data-en="Coins and prices">Moedas e preços</a>
+      <a href="#metodo" data-en="How it was made">Como foi feito</a>
+    </nav>
+  </header>
+
+  <div class="srcbar" role="group" aria-label="Fonte dos sonhos"><span class="lbl" data-en="Source">Fonte</span><div class="srcseg" id="srcseg"></div><div class="srcseg lang" id="langseg" aria-label="Idioma"></div></div>
+
+  <section class="block" id="futuro">
+    <div class="head">
+      <h2 data-en="Future events timeline">Timeline de acontecimentos futuros</h2>
+      <p data-en="Putting all the dreams together, this is the sequence of what they say will happen. There are no dates, only order. Values are the middle of what was dreamed at each stage. Click any value to see who dreamed it.">Juntando todos os sonhos, esta é a sequência do que eles dizem que vai acontecer. Não tem data, tem ordem. Os valores são o meio do que foi sonhado em cada etapa. Clique em qualquer valor para ver quem sonhou.</p>
+    </div>
+    <div class="panel" style="gap:14px">
+      <div class="fc-top">
+        <div class="seg" id="fc-mode"><span class="lbl" data-en="Show">Mostrar</span></div>
+        <div class="seg fc-coins" id="fc-coins"></div>
+      </div>
+      <div class="scroller"><div id="fc"></div></div>
+      <p class="muted" style="font-size:13.5px" data-en="Each line is a coin. It starts at today's price and passes through the middle value of the dreams at each event. Hover to see the values and click a point to see who dreamed it.">Cada linha é uma moeda. Começa no preço de hoje e passa pelo valor do meio dos sonhos em cada acontecimento. Passe o mouse para ver os valores e clique num ponto para ver quem sonhou.</p>
+    </div>
+    <h3 style="margin-top:14px" data-en="The path of each coin">O caminho de cada moeda</h3>
+    <div class="paths" id="paths"></div>
+    <h3 style="margin-top:14px" data-en="The events, one by one">Os acontecimentos, um por um</h3>
+    <div class="events" id="events"></div>
+  </section>
+
+  <section class="block" id="linha">
+    <div class="head">
+      <h2 data-en="Dream timeline">Linha do tempo dos sonhos</h2>
+      <p data-en="Each point is a dream, vision or prophetic word, placed on the date it was received or shared. The color shows the verdict the site or the list already gave. Drag on the top strip to change the period and click a point to read it.">Cada ponto é um sonho, visão ou palavra, colocado na data em que foi recebido ou compartilhado. A cor mostra o veredito que o site ou a lista já deram. Arraste na faixa de cima para mudar o período e clique num ponto para ler.</p>
+    </div>
+    <div class="filters">
+      <label class="search" for="q">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.8"/><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input id="q" type="search" placeholder="Buscar por nome, moeda ou assunto" data-en-ph="Search by name, coin or topic" autocomplete="off">
+      </label>
+      <div class="seg" id="f-tipo"><span class="lbl" data-en="Type">Tipo</span></div>
+    </div>
+    <div class="filters">
+      <div class="seg" id="f-st"><span class="lbl" data-en="Verdict">Veredito</span></div>
+      <div class="seg" id="f-pess"></div>
+    </div>
+    <div class="sky">
+      <div class="sky-bar">
+        <div class="seg" id="f-group"><span class="lbl" data-en="Group by">Agrupar por</span></div>
+        <div class="seg" id="f-range"><span class="lbl" data-en="Period">Período</span></div>
+      </div>
+      <div class="scroller"><div id="tl"></div></div>
+      <div class="sky-bar">
+        <div class="legend" id="legend"></div>
+        <p class="tl-note" id="tl-note"></p>
+      </div>
+    </div>
+
+    <div class="two">
+      <div>
+        <div class="list-head">
+          <h3 id="list-title">Sonhos no período</h3>
+          <div class="seg" id="f-sort"></div>
+        </div>
+        <div id="list"></div>
+        <button class="btn ghost more" id="more" hidden>Mostrar mais</button>
+      </div>
+      <aside class="side" aria-label="Quem mais aparece">
+        <h3 data-en="Who appears most in the period">Quem mais aparece no período</h3>
+        <p class="muted" style="font-size:13px" data-en="Click a name to see only that person's dreams. The red bar is the share the site marked as failed.">Clique num nome para ver só os sonhos dessa pessoa. A barra vermelha é a parte que o site marcou como falha.</p>
+        <div id="people"></div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="block" id="prazos">
+    <div class="head">
+      <h2 data-en="When they said it would happen">Para quando eles marcaram</h2>
+      <p data-en="Many dreams come with a deadline: a month, a year, an exact date. Each bar adds up the predictions that pointed to that month, with the same verdict colors. Click a bar to see which ones. It follows the timeline filters.">Muitos sonhos vêm com prazo: um mês, um ano, uma data exata. Aqui cada barra soma as previsões que apontavam para aquele mês, com a mesma cor de veredito. Clique numa barra para ver quais são. Segue os filtros da linha do tempo.</p>
+    </div>
+    <div class="panel">
+      <div class="scroller"><div id="dl" style="min-width:680px"></div></div>
+      <div id="dl-list"></div>
+    </div>
+  </section>
+
+  <section class="block" id="moedas">
+    <div class="head">
+      <h2 data-en="Coins and prophetic prices">Moedas e preços proféticos</h2>
+      <p data-en="The prices people saw in dreams for each asset, combining the Prophetic Money lists with the Lucas Borin list. The line is the real market price. Each point is a dreamed price, on the date of the dream. Green means the market got there after the dream.">Os preços que as pessoas viram em sonho para cada ativo, juntando as listas do Prophetic Money com a lista do Lucas Borin. A linha é o preço real de mercado. Cada ponto é um preço sonhado, na data do sonho. Verde quer dizer que o mercado chegou lá depois do sonho.</p>
+    </div>
+    <div class="assets" id="assets"></div>
+    <div class="panel" style="display:grid;gap:18px">
+      <div class="asset-top">
+        <div class="name"><h3 id="a-name"></h3><p class="sub" id="a-sub"></p></div>
+        <div class="stats" id="a-stats"></div>
+      </div>
+      <div class="scroller"><div id="pc"></div></div>
+      <div class="ladder-tools">
+        <h3 data-en="Price ladder">Escada de preços</h3>
+        <div class="seg" id="f-ladder"></div>
+      </div>
+      <div class="ladder" id="ladder"></div>
+      <button class="btn ghost more" id="ladder-more" hidden>Mostrar a escada inteira</button>
+    </div>
+  </section>
+
+  <footer class="notes" id="metodo">
+    <h2 data-en="How it was made">Como foi feito</h2>
+    <ul id="method"></ul>
+  </footer>
+</div>
+
+<div id="tip" hidden></div>
+<aside id="drawer" hidden aria-label="Detalhe do sonho">
+  <div class="dh"><div id="d-head"></div><button class="x" id="d-x" aria-label="Fechar / Close"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></div>
+  <div class="db" id="d-body"></div>
+</aside>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script id="data" type="application/json">/*__DATA__*/</script>
+<script>
+(function(){
+const D = JSON.parse(document.getElementById('data').textContent);
+const E = D.E, A = D.A, EV = D.EV, META = D.meta;
+const $ = s => document.querySelector(s);
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+let LANG='pt';
+const PATHMODE=!!document.querySelector('meta[name="lang-routing"][content="path"]');
+try{ if(/^#(eng|en)$/i.test(location.hash) || /\/eng\/?$/.test(location.pathname)) LANG='en'; else if(!PATHMODE && localStorage.getItem('lang')==='en') LANG='en'; }catch(_){}
+const EN=()=>LANG==='en';
+const i18=(pt,en)=>LANG==='en'?en:pt;
+const DX=D.DX||{};
+const tx=s=>(LANG==='en'&&s&&DX[s])?DX[s]:s;
+const LOC=()=>LANG==='en'?'en-US':'pt-BR';
+const CUR=()=>LANG==='en'?'$':'US$ ';
+let MES, MESL;
+const TODAY = new Date(META.hoje+'T12:00:00Z');
+
+// ---------- datas ----------
+function parseD(s){
+  if(!s) return null;
+  const m = /^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?/.exec(s); if(!m) return null;
+  const y=+m[1], mo=m[2]?+m[2]-1:6, d=m[3]?+m[3]:(m[2]?15:1);
+  return {t:Date.UTC(y,mo,d,12), p:m[3]?'d':(m[2]?'m':'y')};
+}
+function fmtD(s){
+  if(!s) return i18('sem data','no date');
+  const m = /^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?/.exec(s); if(!m) return s;
+  if(m[3]) return EN()?`${MES[+m[2]-1]} ${+m[3]}, ${m[1]}`:`${m[3]}/${m[2]}/${m[1]}`;
+  if(m[2]) return EN()?`${MES[+m[2]-1]} ${m[1]}`:`${MES[+m[2]-1]}/${m[1]}`;
+  return m[1];
+}
+function fmtTs(t){const d=new Date(t);return `${String(d.getUTCDate()).padStart(2,'0')}/${String(d.getUTCMonth()+1).padStart(2,'0')}/${d.getUTCFullYear()}`}
+
+// ---------- números ----------
+const SUB='₀₁₂₃₄₅₆₇₈₉';
+function fmtNum(v){
+  if(v==null||!isFinite(v)) return '';
+  const a=Math.abs(v), sg=v<0?'-':'';
+  if(a===0) return '0';
+  if(a>=1000) return sg+a.toLocaleString(LOC(),{maximumFractionDigits:a%1?2:0});
+  if(a>=1) return sg+a.toLocaleString(LOC(),{minimumFractionDigits:a%1?2:0,maximumFractionDigits:a<10?4:2});
+  if(a>=1e-4){
+    const dec=Math.min(12,Math.max(2,-Math.floor(Math.log10(a))+3));
+    let s=a.toFixed(dec).replace(/0+$/,''); if(s.split('.')[1].length<2) s=a.toFixed(2);
+    return sg+(EN()?s:s.replace('.',','));
+  }
+  const z=-Math.floor(Math.log10(a))-1;
+  let mant=(a*Math.pow(10,z+1)).toPrecision(4).replace('.','').replace(/0+$/,'');
+  if(mant.length>4) mant=mant.slice(0,4);
+  return sg+(EN()?'0.0':'0,0')+String(z).split('').map(c=>SUB[+c]).join('')+mant;
+}
+const usd = v => v==null?'':CUR()+fmtNum(v);
+function times(v,cur){
+  if(!cur||!v) return '';
+  const r=v/cur;
+  if(r>=1.05){ const n=(r>=100?Math.round(r).toLocaleString(LOC()):r.toLocaleString(LOC(),{maximumFractionDigits:1})); return i18('precisa subir '+n+' vezes','needs to rise '+n+'x'); }
+  if(r<=0.95){ const q=cur/v; const n=(q>=100?Math.round(q).toLocaleString(LOC()):q.toLocaleString(LOC(),{maximumFractionDigits:1})); return i18('abaixo do preço atual ('+n+' vezes menor)','below the current price ('+n+'x lower)'); }
+  return i18('perto do preço atual','close to the current price');
+}
+
+// ---------- rótulos ----------
+let ST, TIPOL, ORIG;
+function setLabels(){
+  ST = {c:{t:i18('Cumpriu, segundo a fonte','Fulfilled, per the source'),s:i18('Cumpriu','Fulfilled'),v:'--good'},f:{t:i18('Falhou, segundo a fonte','Failed, per the source'),s:i18('Falhou','Failed'),v:'--bad'},p:{t:i18('Cumpriu em parte','Partly fulfilled'),s:i18('Em parte','Partly'),v:'--part'},n:{t:i18('Sem veredito','No verdict'),s:i18('Sem veredito','No verdict'),v:'--star'}};
+  TIPOL = {sonho:i18('Sonho','Dream'),visão:i18('Visão','Vision'),palavra:i18('Palavra','Prophetic word'),ensino:i18('Ensino','Teaching'),análise:i18('Análise do site','Site analysis'),preço:i18('Só o preço','Price only')};
+  ORIG = {s:'Prophetic Money',l:i18('Lista Lucas Borin','Lucas Borin list'),sl:i18('Blog e lista','Blog and list')};
+  MES = EN()?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  MESL = EN()?['January','February','March','April','May','June','July','August','September','October','November','December']:['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+}
+setLabels();
+const STN = {c:'--good-n',f:'--bad-n',p:'--part-n',n:'--star'};
+const TIPOS = ['sonho','visão','palavra','ensino','análise','preço'];
+let SRC='all';
+try{ const v=localStorage.getItem('fonte'); if(v==='s'||v==='l') SRC=v; }catch(_){}
+const srcOk=o=>SRC==='all'||o===SRC||o==='sl';
+const apts=a=>a.pts.filter(p=>srcOk(p.o||'s'));
+const ICON = {
+  c:'<svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6.3l2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  f:'<svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3l6 6M9 3L3 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+  p:'<svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.5a4.5 4.5 0 1 0 0 9z" fill="currentColor"/><circle cx="6" cy="6" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>'
+};
+function stPill(s){ if(!s||s==='n') return ''; return `<span class="pill ${s}">${ICON[s]}${ST[s].s}</span>`; }
+
+// ---------- preparo ----------
+E.forEach((e,i)=>{
+  e._i=i; const pd=parseD(e.d); e._t=pd?pd.t:null; e._p=pd?pd.p:null;
+  const pa=parseD(e.a); e._at=pa?pa.t:null; e._ap=pa?pa.p:null;
+  e.s=e.s||'n'; e.t=e.t||'preço'; e._ps=e.ps||[e.p];
+  e._q=(e.p+' '+e.r+' '+(DX[e.r]||'')+' '+(e.q||'')+' '+(e.as||[]).join(' ')+' '+e.m+' '+(e.ut||'')).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+});
+const byId = new Map(E.map(e=>[e.i,e]));
+const TEMAS = D.temas;
+
+// ---------- estado ----------
+const st = {q:'', tipos:new Set(TIPOS), orig:new Set(['s','l','sl']), sts:new Set(['c','f','p','n']), pessoa:null,
+  group:'tema', range:[Date.UTC(2020,0,1), TODAY.getTime()+86400000*45], sort:'desc', shown:60, dl:null, sel:null,
+  asset:A[0].k, ladderSort:'asc', ladderAll:false};
+
+function matchBase(e){
+  if(!st.tipos.has(e.t)) return false;
+  if(!st.orig.has(e.o)) return false;
+  if(!st.sts.has(e.s)) return false;
+  if(st.pessoa && !e._ps.includes(st.pessoa)) return false;
+  if(st.q){ const qs=st.q.split(/\s+/).filter(Boolean); for(const w of qs) if(!e._q.includes(w)) return false; }
+  return true;
+}
+const inRange = e => e._t!=null && e._t>=st.range[0] && e._t<=st.range[1];
+
+// ---------- cabeçalho ----------
+function drawHead(){
+  const EE=E.filter(e=>srcOk(e.o));
+  const nP=new Set(EE.map(e=>e.p)).size;
+  const dated=EE.filter(e=>e._t).map(e=>e._t);
+  const nPr=A.reduce((s,a)=>s+apts(a).length,0), nA=A.filter(a=>apts(a).length).length;
+  const site=`<a href="https://propheticmoney.com/" target="_blank" rel="noopener">propheticmoney.com</a>`, np=`<b>${META.nPosts.toLocaleString(LOC())} posts</b>`;
+  $('#lede').innerHTML = i18(`Tudo o que o ${site} publicou até ${fmtD(META.ultimoPost)}, somado à lista de preços do Lucas Borin. São ${np} lidos um a um e organizados pela data em que cada pessoa diz ter sonhado, tido a visão ou ouvido a palavra.`,
+    `Everything ${site} published through ${fmtD(META.ultimoPost)}, plus the Lucas Borin price list. That is ${np}, each one read and organized by the date the person says they had the dream, the vision or heard the word.`);
+  $('#facts').innerHTML = [
+    [EE.length.toLocaleString(LOC()),i18('sonhos, visões e palavras','dreams, visions and words')],
+    [nP.toLocaleString(LOC()),i18('pessoas','people')],
+    [nPr.toLocaleString(LOC()),i18('preços sonhados para '+nA+' ativos','dreamed prices for '+nA+' assets')],
+    [dated.length?new Date(d3.min(dated)).getUTCFullYear()+i18(' a ',' to ')+new Date(d3.max(dated)).getUTCFullYear():'',i18('período coberto','period covered')]
+  ].map(([b,t])=>`<span><b class="num">${b}</b>${t}</span>`).join('');
+}
+
+// ---------- controles ----------
+function chips(el, items, isOn, onClick, opt={}){
+  const box=$(el);
+  box.querySelectorAll('button').forEach(b=>b.remove());
+  items.forEach(it=>{
+    const b=document.createElement('button'); b.className='chip'; b.type='button';
+    b.innerHTML=(it.dot?`<span class="dot" style="background:var(${it.dot})"></span>`:'')+esc(it.label)+(it.ct!=null?` <span class="ct">${it.ct}</span>`:'');
+    b.setAttribute('aria-pressed', isOn(it.k)?'true':'false');
+    b.onclick=()=>onClick(it.k);
+    box.appendChild(b);
+  });
+}
+function toggleSet(set,k,all){ if(set.size===all.length){set.clear();set.add(k);} else if(set.has(k)){set.delete(k); if(!set.size) all.forEach(x=>set.add(x));} else set.add(k); }
+function drawControls(){
+  const cnt=k=>E.filter(e=>e.t===k&&srcOk(e.o)).length;
+  chips('#f-tipo', TIPOS.filter(k=>cnt(k)).map(k=>({k,label:TIPOL[k],ct:cnt(k)})), k=>st.tipos.has(k)&&st.tipos.size<TIPOS.length, k=>{toggleSet(st.tipos,k,TIPOS);refresh();});
+  chips('#f-st', ['c','p','f','n'].map(k=>({k,label:ST[k].s,dot:ST[k].v,ct:E.filter(e=>e.s===k&&srcOk(e.o)).length})), k=>st.sts.has(k)&&st.sts.size<4, k=>{toggleSet(st.sts,k,['c','f','p','n']);refresh();});
+  const pb=$('#f-pess'); pb.innerHTML='';
+  if(st.pessoa){ const b=document.createElement('button'); b.className='chip'; b.setAttribute('aria-pressed','true'); b.innerHTML=`${i18('Só','Only')} ${esc(tx(st.pessoa))} <span aria-hidden="true">×</span>`; b.onclick=()=>{st.pessoa=null;refresh();}; pb.appendChild(b); }
+  chips('#f-group', [{k:'tema',label:i18('Tema','Topic')},{k:'pessoa',label:i18('Pessoa','Person')},{k:'tipo',label:i18('Tipo','Type')}], k=>st.group===k, k=>{st.group=k;refresh();});
+  const R=[{k:'all',label:i18('Tudo','All')},{k:'2020',label:i18('Desde 2020','Since 2020')},{k:'2024',label:i18('Desde 2024','Since 2024')},{k:'12m',label:i18('Últimos 12 meses','Last 12 months')}];
+  chips('#f-range', R, k=>st.rangeKey===k, k=>{
+    const now=TODAY.getTime()+86400000*45;
+    st.rangeKey=k;
+    st.range = k==='all'?[MINT-30*864e5,now]:k==='2020'?[Date.UTC(2020,0,1),now]:k==='2024'?[Date.UTC(2024,0,1),now]:[TODAY.getTime()-365*86400000,now];
+    overview.setBrush(); refresh(true);
+  });
+  chips('#f-sort', [{k:'desc',label:i18('Mais recentes','Newest')},{k:'asc',label:i18('Mais antigos','Oldest')}], k=>st.sort===k, k=>{st.sort=k;st.shown=60;drawList();});
+}
+st.rangeKey='2020';
+let qT; $('#q').addEventListener('input',ev=>{clearTimeout(qT);qT=setTimeout(()=>{st.q=ev.target.value.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').trim();refresh();},160);});
+
+// ---------- tooltip ----------
+const tip=$('#tip');
+function showTip(ev,html){ tip.innerHTML=html; tip.hidden=false; const w=tip.offsetWidth,h=tip.offsetHeight; let x=ev.clientX+14,y=ev.clientY+14; if(x+w>innerWidth-8)x=ev.clientX-w-14; if(y+h>innerHeight-8)y=ev.clientY-h-14; tip.style.left=Math.max(8,x)+'px'; tip.style.top=Math.max(8,y)+'px'; }
+function hideTip(){ tip.hidden=true; }
+function entryTip(e){ return `<div class="t3">${fmtD(e.d)} · ${TIPOL[e.t]}${e.s!=='n'?' · '+ST[e.s].s:''}</div><div class="t1">${esc(tx(e.p))}</div><div class="t2">${esc(tx(e.r))}</div>`; }
+
+// ---------- visão geral (faixa de cima, com seleção) ----------
+const T16=Date.UTC(2016,0,1), TEND=TODAY.getTime()+86400000*45;
+const MINT=d3.min(E.filter(e=>e._t),e=>e._t);
+// anos antes de 2016 têm poucos registros: ficam comprimidos numa faixa estreita à esquerda
+function timeScale(r0,r1,x0,x1){
+  if(r0<T16 && r1>T16) return d3.scaleUtc().domain([new Date(r0),new Date(T16),new Date(r1)]).range([x0,x0+34,x1]);
+  return d3.scaleUtc().domain([new Date(r0),new Date(r1)]).range([x0,x1]);
+}
+const overview={setBrush(){}};
+
+// ---------- linha do tempo ----------
+const tl={};
+function groupsFor(list){
+  if(st.group==='tema') return TEMAS.filter(t=>list.some(e=>e.m===t)).map(t=>({k:t,label:tx(t),f:e=>e.m===t}));
+  if(st.group==='tipo') return TIPOS.filter(t=>list.some(e=>e.t===t)).map(t=>({k:t,label:TIPOL[t],f:e=>e.t===t}));
+  const c=d3.rollups(list.filter(e=>!e.g).flatMap(e=>e._ps),v=>v.length,p=>p).sort((a,b)=>b[1]-a[1]);
+  const top=c.slice(0,14).map(d=>d[0]); const set=new Set(top);
+  const g=top.map(p=>({k:p,label:tx(p),f:e=>e._ps.includes(p)}));
+  g.push({k:'_o',label:i18('Outras pessoas','Other people'),f:e=>!e._ps.some(p=>set.has(p))});
+  return g;
+}
+function drawTimeline(){
+  const box=$('#tl'); const W=Math.max(720,box.clientWidth||box.parentNode.clientWidth);
+  const narrow = W<860;
+  const L = narrow?12:170, R=14, OVH=64, EVH=30, gap=14;
+  const base=E.filter(matchBase);
+  const allDated=E.filter(e=>e._t);
+  const list=base.filter(inRange);
+  const groups=groupsFor(list);
+  const x=timeScale(st.range[0],st.range[1],L,W-R); const comp=st.range[0]<T16;
+  const r=3.1, step=2*r+0.9, binW=2*r+0.6;
+  // empilhamento por faixa
+  const lanes=groups.map(g=>{
+    const pts=list.filter(g.f).sort((a,b)=>a._t-b._t);
+    const bins=new Map(); let maxK=0;
+    const ks=pts.map(e=>{ const b=Math.floor(x(e._t)/binW); const k=bins.get(b)||0; bins.set(b,k+1); if(k>maxK)maxK=k; return k; });
+    const need=(maxK+1)*step+10;
+    const h=Math.max(narrow?44:34, Math.min(150, need + (narrow?14:0)));
+    return {g,pts,ks,h,maxK};
+  });
+  let y0=OVH+gap+EVH;
+  lanes.forEach(l=>{l.y=y0; y0+=l.h;});
+  const H=y0+26;
+  const svg=d3.select(box).html('').append('svg').attr('width',W).attr('height',H).attr('role','img').attr('aria-label',i18('Linha do tempo dos sonhos','Dream timeline'));
+  const nightInk=css('--night-ink'), ink2=css('--night-ink-2'), band=css('--night-band'), grid=css('--night-grid'), gold=css('--gold');
+
+  // faixa de visão geral: barras mensais de todo o período
+  const ox=timeScale(Math.min(MINT,T16-864e5),TEND,L,W-R);
+  const months=d3.utcMonths(new Date(T16), new Date(TEND));
+  const mb=d3.rollup(base.filter(e=>e._t), v=>({n:v.length,f:v.filter(e=>e.s==='f').length,c:v.filter(e=>e.s==='c'||e.s==='p').length}), e=>{if(e._t<T16) return 'pre'; const d=new Date(e._t);return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),1);});
+  const maxM=d3.max([...mb.values()],d=>d.n)||1;
+  const oy=d3.scaleSqrt().domain([0,maxM]).range([0,OVH-18]);
+  const og=svg.append('g');
+  og.append('text').attr('x',L).attr('y',10).attr('fill',ink2).attr('font-size',11.5).attr('font-weight',600).text(i18('Sonhos por mês, todo o período. Arraste para escolher o trecho.','Dreams per month, whole period. Drag to choose a range.'));
+  const bw=Math.max(1,(ox(new Date(Date.UTC(2021,1,1)))-ox(new Date(Date.UTC(2021,0,1))))-1);
+  const pre=mb.get('pre');
+  if(pre){ const X=L+4, w=24, base0=OVH-4, hh=Math.min(OVH-18,oy(pre.n));
+    og.append('rect').attr('x',X).attr('width',w).attr('y',base0-hh).attr('height',hh).attr('fill',css('--star')).attr('opacity',.35).attr('rx',2);
+    og.append('text').attr('x',X+w/2).attr('y',OVH+8).attr('text-anchor','middle').attr('fill',ink2).attr('font-size',10.5).text(i18('antes','before')); }
+  months.forEach(m=>{const v=mb.get(m.getTime()); if(!v) return; const X=ox(m), base0=OVH-4;
+    og.append('rect').attr('x',X).attr('width',bw).attr('y',base0-oy(v.n)).attr('height',oy(v.n)).attr('fill',css('--star')).attr('opacity',.55).attr('rx',Math.min(2,bw/2));
+    if(v.f) og.append('rect').attr('x',X).attr('width',bw).attr('y',base0-oy(v.f)).attr('height',oy(v.f)).attr('fill',css('--bad-n')).attr('opacity',.9).attr('rx',Math.min(2,bw/2));
+  });
+  d3.utcYears(new Date(T16),new Date(TEND)).filter(t=>!narrow||t.getUTCFullYear()%2===0).forEach(t=>{ og.append('text').attr('x',ox(t)+2).attr('y',OVH+8).attr('fill',ink2).attr('font-size',10.5).text(t.getUTCFullYear()); });
+  const brush=d3.brushX().extent([[L,12],[W-R,OVH]]).on('end',ev=>{
+    if(!ev.sourceEvent) return;
+    if(!ev.selection){ return; }
+    st.range=ev.selection.map(v=>ox.invert(v).getTime()); st.rangeKey=null; drawControls(); refresh(true);
+  });
+  const bg=og.append('g').attr('class','brush').call(brush);
+  bg.selectAll('.selection').attr('fill',gold).attr('fill-opacity',.18).attr('stroke',gold).attr('stroke-opacity',.9).attr('rx',4);
+  bg.selectAll('.handle').attr('fill',gold).attr('fill-opacity',.6).attr('rx',3);
+  bg.call(brush.move,[Math.max(L,ox(st.range[0])),Math.min(W-R,ox(st.range[1]))]);
+  overview.setBrush=()=>{};
+
+  // fundo: faixas de ano alternadas
+  const top=OVH+gap, bottom=H-22;
+  const years=d3.utcYears(d3.utcYear.floor(new Date(Math.max(st.range[0],comp?T16:st.range[0]))), new Date(st.range[1]+86400000*366));
+  const yg=svg.append('g');
+  if(comp){ yg.append('rect').attr('x',L).attr('y',top).attr('width',30).attr('height',bottom-top).attr('fill',band).attr('opacity',.6).attr('rx',4);
+    yg.append('text').attr('x',L+15).attr('y',bottom+15).attr('text-anchor','middle').attr('fill',ink2).attr('font-size',11).text(i18('antes','before')); }
+  years.forEach((yr,i)=>{ const x0=Math.max(L,x(yr)), x1=Math.min(W-R,x(d3.utcYear.offset(yr,1))); if(x1<=x0) return;
+    if(yr.getUTCFullYear()%2===0) yg.append('rect').attr('x',x0).attr('y',top).attr('width',x1-x0).attr('height',bottom-top).attr('fill',band).attr('rx',4);
+  });
+  // eixo: anos e meses
+  const span=st.range[1]-Math.max(st.range[0],comp?T16:st.range[0]);
+  const tick = span>6*365*864e5? d3.utcYear.every(1) : span>2.5*365*864e5? d3.utcMonth.every(6) : span>380*864e5? d3.utcMonth.every(3): d3.utcMonth.every(1);
+  x.ticks(tick).filter(t=>!comp||t.getTime()>=T16).forEach(t=>{ const isY=t.getUTCMonth()===0;
+    yg.append('text').attr('x',x(t)+3).attr('y',bottom+15).attr('fill',isY?nightInk:ink2).attr('font-size',11).attr('font-weight',isY?650:400).text(isY?t.getUTCFullYear():MES[t.getUTCMonth()]);
+  });
+  // eventos reais
+  const evg=svg.append('g');
+  evg.append('text').attr('x',narrow?L:L-12).attr('y',top+14).attr('text-anchor',narrow?'start':'end').attr('fill',ink2).attr('font-size',11).attr('font-weight',600).text(narrow?'':i18('Fatos de mercado','Market facts'));
+  EV.forEach(ev=>{ const t=parseD(ev.d).t; if(t<st.range[0]||t>st.range[1]) return; const X=x(t);
+    evg.append('line').attr('x1',X).attr('x2',X).attr('y1',top+20).attr('y2',bottom).attr('stroke',gold).attr('stroke-opacity',.28).attr('stroke-dasharray','2 4');
+    const g=evg.append('g').attr('transform',`translate(${X},${top+10})`).style('cursor','help');
+    g.append('path').attr('d','M0,-6 L6,0 L0,6 L-6,0Z').attr('fill',gold);
+    g.append('rect').attr('x',-10).attr('y',-10).attr('width',20).attr('height',20).attr('fill','transparent');
+    g.on('mousemove',e2=>showTip(e2,`<div class="t3">${fmtD(ev.d)} · ${i18('fato de mercado','market fact')}</div><div class="t1">${esc(tx(ev.n))}</div>${ev.s?`<div class="t2">${esc(tx(ev.s))}</div>`:''}`)).on('mouseleave',hideTip);
+  });
+  // faixas e pontos
+  const pg=svg.append('g');
+  const pos=[];
+  lanes.forEach((l,li)=>{
+    const cy=l.y+l.h/2 + (narrow?6:0);
+    if(narrow){ pg.append('text').attr('x',L).attr('y',l.y+12).attr('fill',ink2).attr('font-size',11.5).attr('font-weight',600).text(l.g.label+' · '+l.pts.length); }
+    else{
+      pg.append('text').attr('x',L-12).attr('y',cy-1).attr('text-anchor','end').attr('dominant-baseline','middle').attr('fill',nightInk).attr('font-size',12.5).attr('font-weight',600).text(l.g.label.length>24?l.g.label.slice(0,23)+'…':l.g.label);
+      pg.append('text').attr('x',L-12).attr('y',cy+13).attr('text-anchor','end').attr('dominant-baseline','middle').attr('fill',ink2).attr('font-size',11).text(l.pts.length.toLocaleString(LOC()));
+    }
+    const room=Math.floor((l.h-(narrow?18:8))/step);
+    l.pts.forEach((e,j)=>{
+      let k=l.ks[j]; if(room>0 && k>=room) k=k%room;
+      const off=(k%2? -1:1)*Math.ceil(k/2)*step;
+      const X=x(e._t), Y=cy+off;
+      pos.push([X,Y,e]);
+    });
+  });
+  // desenha: neutros primeiro, vereditos por cima
+  const order={n:0,p:1,c:2,f:1};
+  pos.sort((a,b)=>order[a[2].s]-order[b[2].s]);
+  pg.selectAll('circle.pt').data(pos).join('circle').attr('class','pt')
+    .attr('cx',d=>d[0]).attr('cy',d=>d[1]).attr('r',d=>d[2]._p==='d'?r:r-0.6)
+    .attr('fill',d=>d[2]._p==='d'?css(STN[d[2].s]):'none')
+    .attr('stroke',d=>d[2]._p==='d'?'none':css(STN[d[2].s])).attr('stroke-width',1.3)
+    .attr('opacity',d=>d[2].s==='n'?.78:1);
+  const ring=pg.append('circle').attr('r',r+4).attr('fill','none').attr('stroke',gold).attr('stroke-width',2).attr('opacity',0);
+  const selRing=pg.append('circle').attr('r',r+4.5).attr('fill','none').attr('stroke',gold).attr('stroke-width',2.4).attr('opacity',0);
+  tl.selRing=selRing; tl.pos=pos;
+  const del=d3.Delaunay.from(pos,d=>d[0],d=>d[1]);
+  const hit=svg.append('rect').attr('x',L-6).attr('y',top+18).attr('width',W-R-L+12).attr('height',bottom-top-18).attr('fill','transparent').style('cursor','pointer');
+  function near(ev){ const [mx,my]=d3.pointer(ev,svg.node()); if(!pos.length) return null; const i=del.find(mx,my); const p=pos[i]; return Math.hypot(p[0]-mx,p[1]-my)<14?p:null; }
+  hit.on('mousemove',ev=>{ const p=near(ev); if(!p){ring.attr('opacity',0);hideTip();return;} ring.attr('cx',p[0]).attr('cy',p[1]).attr('opacity',1); showTip(ev,entryTip(p[2])); })
+     .on('mouseleave',()=>{ring.attr('opacity',0);hideTip();})
+     .on('click',ev=>{ const p=near(ev); if(p) openDrawer(p[2]); });
+  markSel();
+  // nota
+  const outside=base.length-list.length, undated=base.filter(e=>!e._t).length;
+  $('#tl-note').innerHTML=`<b>${list.length.toLocaleString(LOC())}</b> ${i18('no período escolhido','in the chosen period')}`+(outside-undated>0?` · ${(outside-undated).toLocaleString(LOC())} ${i18('fora dele','outside it')}`:'')+(undated?` · ${undated} ${i18('sem data (estão na lista)','without a date (they are in the list)')}`:'');
+}
+function markSel(){
+  if(!tl.selRing) return;
+  const p=st.sel&&tl.pos.find(d=>d[2].i===st.sel);
+  tl.selRing.attr('opacity',p?1:0); if(p) tl.selRing.attr('cx',p[0]).attr('cy',p[1]);
+  document.querySelectorAll('.entry').forEach(n=>n.classList.toggle('sel',n.dataset.id===st.sel));
+}
+function drawLegend(){ $('#legend').innerHTML=['c','p','f','n'].map(k=>`<span><i style="background:var(${STN[k]})"></i>${ST[k].t}</span>`).join('')+`<span><i style="border:1.5px solid var(--star);background:none"></i>${i18('Data só com mês ou ano','Date with only month or year')}</span><span><svg width="10" height="10" viewBox="-6 -6 12 12" aria-hidden="true"><path d="M0,-6 L6,0 L0,6 L-6,0Z" fill="var(--gold)"/></svg>${i18('Fato de mercado','Market fact')}</span>`; }
+drawLegend();
+
+// ---------- lista ----------
+function entryHTML(e){
+  const pr=(e.pr||[]).slice(0,6).map(p=>`<span class="pill gold">${esc(tx(p[0]))} ${usd(p[1])}</span>`).join('');
+  const tags=[stPill(e.s), `<span class="pill">${TIPOL[e.t]}</span>`, `<span class="pill">${esc(tx(e.m))}</span>`, e.at?`<span class="pill">${i18('Prazo','Deadline')}: ${esc(tx(e.at))}</span>`:'', pr].join('');
+  return `<div class="entry" data-id="${esc(e.i)}" tabindex="0"><div class="when">${fmtD(e.d)}</div><div class="body"><div class="who"><b>${esc(tx(e.p))}</b>${e.o!=='s'?`<span class="src-l">${ORIG[e.o]}</span>`:''}</div><p class="res">${esc(tx(e.r))}</p><div class="tags">${tags}</div></div></div>`;
+}
+function bindEntries(root){
+  root.querySelectorAll('.entry').forEach(n=>{ const go=()=>openDrawer(byId.get(n.dataset.id)); n.onclick=go; n.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go();}}; });
+}
+function drawList(){
+  const base=E.filter(matchBase);
+  let list=base.filter(inRange);
+  const undated=base.filter(e=>!e._t);
+  list.sort((a,b)=>st.sort==='desc'?b._t-a._t:a._t-b._t);
+  const all=list.concat(undated);
+  const show=all.slice(0,st.shown);
+  $('#list-title').textContent=`${all.length.toLocaleString(LOC())} ${i18(all.length===1?'registro':'registros',all.length===1?'record':'records')} ${i18('no período','in the period')}`+(st.pessoa?` ${i18('de','from')} ${tx(st.pessoa)}`:'');
+  let html='', cur=null;
+  show.forEach(e=>{
+    let key=i18('Sem data','No date');
+    if(e._t){const d=new Date(e._t); key=e._p==='y'?`${d.getUTCFullYear()} ${i18('(só o ano)','(year only)')}`:`${MESL[d.getUTCMonth()]} ${i18('de ','')}${d.getUTCFullYear()}`;}
+    if(key!==cur){ if(cur!==null) html+='</div>'; html+=`<div class="month"><h3>${key.charAt(0).toUpperCase()+key.slice(1)}</h3>`; cur=key; }
+    html+=entryHTML(e);
+  });
+  if(cur!==null) html+='</div>';
+  $('#list').innerHTML= html || `<p class="empty">${i18('Nenhum sonho com esses filtros. Tire algum filtro ou amplie o período.','No dreams with these filters. Remove a filter or widen the period.')}</p>`;
+  bindEntries($('#list'));
+  const more=$('#more'); more.hidden=all.length<=st.shown; more.textContent=i18(`Mostrar mais (${(all.length-st.shown).toLocaleString(LOC())} restantes)`,`Show more (${(all.length-st.shown).toLocaleString(LOC())} left)`);
+  markSel();
+}
+$('#more').onclick=()=>{st.shown+=120;drawList();};
+
+function drawPeople(){
+  const save=st.pessoa; st.pessoa=null;
+  const list=E.filter(e=>matchBase(e)&&inRange(e)); st.pessoa=save;
+  const flat=list.filter(e=>!e.g).flatMap(e=>e._ps.map(p=>({p,s:e.s})));
+  const c=d3.rollups(flat,v=>({n:v.length,f:v.filter(e=>e.s==='f').length}),e=>e.p).sort((a,b)=>b[1].n-a[1].n).slice(0,30);
+  const mx=c.length?c[0][1].n:1;
+  $('#people').innerHTML=c.map(([p,v])=>`<button class="prow" type="button" data-p="${esc(p)}" aria-pressed="${st.pessoa===p}"><span class="nm">${esc(tx(p))}</span><span class="ct">${v.n}</span><span class="bar"><i style="width:${v.n/mx*100}%;position:relative;display:flex"><i class="f" style="width:${v.f/v.n*100}%;margin-left:auto"></i></i></span></button>`).join('')||`<p class="empty">${i18('Ninguém no período.','No one in the period.')}</p>`;
+  $('#people').querySelectorAll('.prow').forEach(b=>b.onclick=()=>{ st.pessoa = st.pessoa===b.dataset.p?null:b.dataset.p; refresh(); document.getElementById('linha').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}); });
+}
+
+// ---------- prazos ----------
+function drawDeadlines(){
+  const box=$('#dl'); const W=Math.max(680,box.clientWidth||680), H=230, L=36, R=10, T=16, B=28;
+  const list=E.filter(e=>matchBase(e)&&e._at&&e._ap!=='y');
+  const yearOnly=E.filter(e=>matchBase(e)&&e._at&&e._ap==='y').length;
+  const t0=Date.UTC(2020,0,1), t1=Date.UTC(2031,0,1);
+  const L2=list.filter(e=>e._at>=t0&&e._at<t1);
+  const x=d3.scaleUtc().domain([t0,t1]).range([L,W-R]);
+  const by=d3.rollup(L2,v=>({n:v.length,c:v.filter(e=>e.s==='c').length,p:v.filter(e=>e.s==='p').length,f:v.filter(e=>e.s==='f').length,list:v}),e=>{const d=new Date(e._at);return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),1);});
+  const mx=d3.max([...by.values()],d=>d.n)||1;
+  const y=d3.scaleLinear().domain([0,mx]).nice().range([H-B,T]);
+  const svg=d3.select(box).html('').append('svg').attr('width',W).attr('height',H).attr('role','img').attr('aria-label',i18('Previsões por mês-alvo','Predictions by target month'));
+  const ink3=css('--ink-3'), ink2=css('--ink-2');
+  y.ticks(4).forEach(v=>{ svg.append('text').attr('x',L-8).attr('y',y(v)).attr('text-anchor','end').attr('dominant-baseline','middle').attr('fill',ink3).attr('font-size',11).text(v);
+    if(v) svg.append('line').attr('x1',L).attr('x2',W-R).attr('y1',y(v)).attr('y2',y(v)).attr('stroke',css('--wash-2')).attr('stroke-opacity',.6); });
+  const now=x(TODAY); svg.append('rect').attr('x',now).attr('y',T).attr('width',W-R-now).attr('height',H-B-T).attr('fill',css('--wash')).attr('opacity',.55).attr('rx',6);
+  svg.append('text').attr('x',now+6).attr('y',T+12).attr('fill',ink2).attr('font-size',11.5).attr('font-weight',600).text(i18('ainda por vir','still to come'));
+  const bw=Math.max(2,x(Date.UTC(2021,1,1))-x(Date.UTC(2021,0,1))-1.5);
+  const cols={n:css('--line'),c:css('--good'),p:css('--part'),f:css('--bad')};
+  for(const [k,v] of by){
+    const X=x(k); let acc=0;
+    [['f',v.f],['p',v.p],['c',v.c],['n',v.n-v.f-v.p-v.c]].forEach(([s,n])=>{ if(!n) return; const y1=y(acc), y2=y(acc+n); svg.append('rect').attr('x',X).attr('width',bw).attr('y',y2+(acc?1:0)).attr('height',Math.max(1,y1-y2-(acc?1:0))).attr('fill',cols[s]).attr('opacity',s==='n'?.55:.95).attr('rx',Math.min(2,bw/2)); acc+=n; });
+    const sel=st.dl===k;
+    svg.append('rect').attr('x',X-1).attr('width',bw+2).attr('y',T).attr('height',H-B-T).attr('fill',sel?css('--gold'):'transparent').attr('fill-opacity',sel?.18:0).style('cursor','pointer')
+      .on('mousemove',ev=>{const d=new Date(k);showTip(ev,`<div class="t1">${MESL[d.getUTCMonth()]} ${i18('de ','')}${d.getUTCFullYear()}</div><div class="t2">${v.n} ${i18(v.n===1?'previsão marcada para este mês':'previsões marcadas para este mês',v.n===1?'prediction set for this month':'predictions set for this month')}</div><div class="t3">${v.f} ${i18('falharam','failed')} · ${v.c+v.p} ${i18('cumpriram em todo ou em parte, segundo a fonte','fully or partly fulfilled, per the source')}</div>`);})
+      .on('mouseleave',hideTip).on('click',()=>{st.dl=st.dl===k?null:k;drawDeadlines();});
+  }
+  d3.utcYears(new Date(t0),new Date(t1)).forEach(t=>svg.append('text').attr('x',x(t)+2).attr('y',H-B+16).attr('fill',ink2).attr('font-size',11).attr('font-weight',600).text(t.getUTCFullYear()));
+  const dl=$('#dl-list');
+  if(st.dl && by.get(st.dl)){
+    const d=new Date(st.dl); const v=by.get(st.dl).list.sort((a,b)=>(a._t||0)-(b._t||0));
+    dl.innerHTML=`<h3 style="padding:12px 12px 0">${v.length} ${i18(v.length===1?'previsão para':'previsões para',v.length===1?'prediction for':'predictions for')} ${MESL[d.getUTCMonth()]} ${i18('de ','')}${d.getUTCFullYear()}</h3>`+v.slice(0,80).map(entryHTML).join('');
+    bindEntries(dl);
+  } else dl.innerHTML=`<p class="muted" style="padding:10px 4px 0;font-size:13.5px">${i18(`${L2.length.toLocaleString(LOC())} previsões com mês ou dia marcado entre 2020 e 2030. Outras ${yearOnly.toLocaleString(LOC())} só dizem o ano e não entram nas barras.`,`${L2.length.toLocaleString(LOC())} predictions with a set month or day between 2020 and 2030. Another ${yearOnly.toLocaleString(LOC())} only give the year and are not in the bars.`)}</p>`;
+}
+
+// ---------- painel de detalhe ----------
+const backBtn=back=>back?`<button class="back" type="button">${i18('‹ Voltar','‹ Back')}</button>`:'';
+function bindBack(back){ const b=$('#d-head .back'); if(b) b.onclick=back; }
+const LISTSRC=()=>i18('Lista Lucas Borin, lista de preços proféticos','Lucas Borin list, a prophetic price list');
+function openDrawer(e, back){
+  if(!e) return; st.sel=e.i; markSel();
+  $('#d-head').innerHTML=backBtn(back)+`<p class="muted" style="font-size:13px">${fmtD(e.d)}${e.dt==='r'?i18(' (recebido)',' (received)'):e.dt==='c'?i18(' (compartilhado)',' (shared)'):''}</p><h3 style="font-size:20px">${esc(tx(e.p))}</h3>`;
+  const pr=(e.pr||[]).map(p=>`<span class="pill gold">${esc(tx(p[0]))} ${usd(p[1])}${p[2]?' · '+esc(tx(p[2])):''}</span>`).join('');
+  const links=[]; if(e.u) links.push(`<a href="${esc(e.u)}" target="_blank" rel="noopener">${esc(e.ut||i18('Post no propheticmoney.com','Post on propheticmoney.com'))}</a>`); if(e.v) links.push(`<a href="${esc(e.v)}" target="_blank" rel="noopener">${i18('Vídeo ou post original','Original video or post')}</a>`);
+  if(e.o==='l'||e.o==='sl') links.push(`<span>${LISTSRC()}</span>`);
+  $('#d-body').innerHTML=`<div class="tags" style="display:flex;flex-wrap:wrap;gap:6px">${stPill(e.s)}<span class="pill">${TIPOL[e.t]}</span><span class="pill">${esc(tx(e.m))}</span>${e.o!=='s'?`<span class="pill">${ORIG[e.o]}</span>`:''}</div>
+  <p style="font-size:16px">${esc(tx(e.r))}</p>
+  ${e.q?`<blockquote lang="en">“${esc(e.q)}”</blockquote>`:''}
+  <dl class="kv">
+    ${e.at?`<dt>${i18('Prazo dado','Deadline given')}</dt><dd>${esc(tx(e.at))}</dd>`:''}
+    ${(e.as&&e.as.length)?`<dt>${i18('Ativos','Assets')}</dt><dd>${e.as.map(a=>esc(tx(a))).join(', ')}</dd>`:''}
+    ${e.s!=='n'?`<dt>${i18('Veredito','Verdict')}</dt><dd>${ST[e.s].t}${e.sn?'. '+esc(tx(e.sn)):''}</dd>`:''}
+    ${links.length?`<dt>${i18('Fonte','Source')}</dt><dd style="display:grid;gap:4px">${links.join('')}</dd>`:''}
+  </dl>
+  ${pr?`<div><p class="muted" style="font-size:13px;margin-bottom:6px">${i18('Preços citados','Prices mentioned')}</p><div class="prices">${pr}</div></div>`:''}`;
+  bindBack(back);
+  $('#drawer').hidden=false; $('#drawer .db').scrollTop=0; $('#d-x').focus({preventScroll:true});
+}
+// preço sem sonho próprio na linha do tempo (ex.: item da lista sem data): mostra o que se sabe e a fonte
+function openPoint(p, coinName, back){
+  const src=[]; if(p.lk) src.push(`<a href="${esc(p.lk)}" target="_blank" rel="noopener">${i18('Post ou vídeo original','Original post or video')}</a>`);
+  if(p.o==='l'||p.o==='sl'||!p.lk) src.push(`<span>${p.o==='s'?'Prophetic Money':LISTSRC()}</span>`);
+  $('#d-head').innerHTML=backBtn(back)+`<p class="muted" style="font-size:13px">${p.d?fmtD(p.d):i18('sem data','no date')}</p><h3 style="font-size:20px">${esc(tx(p.p)||i18('Nome não informado','Name not given'))}</h3>`;
+  $('#d-body').innerHTML=`<div class="tags" style="display:flex;flex-wrap:wrap;gap:6px"><span class="pill gold">${esc(tx(coinName))} ${p.v!=null?usd(p.v):esc(tx(p.vt)||'')}</span>${p.lc?`<span class="pill c">${ICON.c}${i18('A lista marca como cumprido','The list marks it fulfilled')}${p.lcd?i18(' em ',' on ')+fmtD(p.lcd):''}</span>`:''}</div>
+  ${p.n?`<p style="font-size:16px">${esc(tx(p.n))}</p>`:''}
+  <dl class="kv"><dt>${i18('Fonte','Source')}</dt><dd style="display:grid;gap:4px">${src.join('')}</dd></dl>`;
+  bindBack(back);
+  $('#drawer').hidden=false; $('#drawer .db').scrollTop=0; $('#d-x').focus({preventScroll:true});
+}
+$('#d-x').onclick=()=>{$('#drawer').hidden=true;st.sel=null;markSel();};
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&!$('#drawer').hidden){$('#d-x').click();}});
+
+// ---------- moedas ----------
+const PST=k=>({hit:i18('Atingido','Reached'),miss:i18('Não atingido','Not reached'),nd:i18('Sem dados de mercado do período','No market data for the period'),nodate:i18('Sem data do sonho','No dream date'),nc:i18('Em outra moeda','In another currency')})[k];
+function drawAssets(){
+  const box=$('#assets'); box.innerHTML='';
+  if(!apts(A.find(x=>x.k===st.asset)).length){ const f=A.find(x=>apts(x).length); if(f) st.asset=f.k; }
+  A.filter(a=>apts(a).length).forEach(a=>{ const b=document.createElement('button'); b.className='chip'; b.type='button'; b.innerHTML=`${esc(tx(a.tk))} <span class="ct">${apts(a).length}</span>`; b.title=tx(a.nome); b.setAttribute('aria-pressed',st.asset===a.k); b.onclick=()=>{st.asset=a.k;st.ladderAll=false;drawAssets();drawAsset();}; box.appendChild(b); });
+}
+function ptStatus(p,a){
+  if(p.st==='hit') return `<span class="pill c">${ICON.c}${i18('Atingido em','Reached on')} ${fmtD(p.hd)}</span>`;
+  if(p.st==='miss') return `<span class="pill">${i18('Não atingido','Not reached')}${p.mx!=null?(p.dirc==='down'?i18(', mínima depois do sonho ',', low after the dream ')+usd(p.mx):i18(', máxima depois do sonho ',', high after the dream ')+usd(p.mx)):''}</span>`;
+  if(p.st==='nd') return `<span class="pill">${i18('Sem histórico de preço desse período','No price history for this period')}</span>`;
+  if(p.st==='nc') return `<span class="pill">${i18('Valor em','Value in')} ${esc(p.cur)}</span>`;
+  if(p.st==='nodate') return '';
+  return '';
+}
+function drawAsset(){
+  const a=A.find(x=>x.k===st.asset);
+  $('#a-name').textContent=tx(a.nome);
+  $('#a-sub').innerHTML=a.s&&a.s.length?`${i18('Preço de mercado','Market price')}: ${esc(tx(a.src))}, ${i18('de','from')} ${fmtD(a.s[0][0])} ${i18('a','to')} ${fmtD(a.curD)}.`:i18('Sem histórico de preço disponível para esta moeda.','No price history available for this coin.')+(a.ctr?` ${i18('Contrato','Contract')} ${esc(a.ctr)}.`:'');
+  const PP=apts(a); const hits=PP.filter(p=>p.st==='hit').length, misses=PP.filter(p=>p.st==='miss').length;
+  const stats=[];
+  if(a.cur!=null) stats.push([usd(a.cur),i18('preço em ','price on ')+fmtD(a.curD)]);
+  if(a.ath!=null) stats.push([usd(a.ath),i18('máxima do histórico, ','all-time high, ')+fmtD(a.athD)]);
+  stats.push([PP.length,i18('preços sonhados','dreamed prices')]);
+  if(hits+misses) stats.push([`${hits} ${i18('de','of')} ${hits+misses}`,i18('atingidos depois do sonho','reached after the dream')]);
+  $('#a-stats').innerHTML=stats.map(([b,t])=>`<div class="stat"><b>${b}</b><span>${t}</span></div>`).join('');
+  drawPriceChart(a); drawLadder(a);
+}
+function drawPriceChart(a){
+  const box=$('#pc'); const W=Math.max(340,box.parentNode.clientWidth), narrow=W<620;
+  const H=narrow?350:400, L=narrow?64:78, R=narrow?44:92, T=narrow?46:34, B=30;
+  box.style.minWidth='0';
+  const PP=apts(a); const dated=PP.filter(p=>p.d&&p.v>0&&p.cur==null), undated=PP.filter(p=>!p.d&&p.v>0&&p.cur==null);
+  const ser=(a.s||[]).map(r=>[parseD(r[0]).t,r[1]]);
+  const ts=dated.map(p=>parseD(p.d).t).concat(ser.map(r=>r[0]));
+  if(!ts.length && !undated.length){ box.innerHTML=`<p class="empty">${i18('Nenhum preço numérico para desenhar.','No numeric price to draw.')}</p>`; return; }
+  const t0=ts.length?d3.min(ts):TODAY.getTime()-365*864e5;
+  const x=d3.scaleUtc().domain([d3.utcMonth.floor(new Date(t0-30*864e5)), new Date(TODAY.getTime()+30*864e5)]).range([L,W-R-(undated.length?(narrow?34:46):0)]);
+  const vals=dated.concat(undated).map(p=>p.v).concat(ser.map(r=>r[1])).filter(v=>v>0);
+  const lo=d3.min(vals), hi=d3.max(vals);
+  const y=d3.scaleLog().domain([lo/2.5,hi*2.5]).range([H-B,T]);
+  const svg=d3.select(box).html('').append('svg').attr('width',W).attr('height',H).attr('role','img').attr('aria-label',i18(`Preço real e preços sonhados de ${tx(a.nome)}`,`Real price and dreamed prices of ${tx(a.nome)}`));
+  const ink3=css('--ink-3'), ink2=css('--ink-2'), wash=css('--wash-2');
+  // grade em potências de 10
+  const e0=Math.ceil(Math.log10(lo/2.5)), e1=Math.floor(Math.log10(hi*2.5));
+  const stepE=Math.max(1,Math.ceil((e1-e0+1)/(narrow?6:9)));
+  for(let e=e0;e<=e1;e+=stepE){ const v=Math.pow(10,e), Y=y(v);
+    svg.append('line').attr('x1',L).attr('x2',W-R).attr('y1',Y).attr('y2',Y).attr('stroke',wash).attr('stroke-opacity',.55);
+    svg.append('text').attr('x',L-8).attr('y',Y).attr('text-anchor','end').attr('dominant-baseline','middle').attr('fill',ink3).attr('font-size',11).text(fmtNum(v)); }
+  x.ticks(narrow?4:8).forEach(t=>svg.append('text').attr('x',x(t)).attr('y',H-B+18).attr('text-anchor','middle').attr('fill',ink3).attr('font-size',11).text(t.getUTCMonth()===0?t.getUTCFullYear():MES[t.getUTCMonth()]+'/'+String(t.getUTCFullYear()).slice(2)));
+  // guias: preço atual e máxima
+  const guide=(v,label,dy)=>{ if(v==null) return; const Y=y(v); svg.append('line').attr('x1',L).attr('x2',W-R).attr('y1',Y).attr('y2',Y).attr('stroke',ink2).attr('stroke-dasharray','3 4').attr('stroke-opacity',.7);
+    svg.append('text').attr('x',W-R+6).attr('y',Y+dy).attr('dominant-baseline','middle').attr('fill',ink2).attr('font-size',11).attr('font-weight',600).text(narrow?'':label); };
+  const gap=(a.ath!=null&&a.cur!=null)?y(a.cur)-y(a.ath):99;
+  guide(a.ath,i18('máxima','high'),gap<13?-(13-gap)/2-1:0); guide(a.cur,i18('hoje','today'),gap<13?(13-gap)/2+1:0);
+  if(ser.length){ svg.append('path').attr('d',d3.line().x(d=>x(d[0])).y(d=>y(d[1])).curve(d3.curveMonotoneX)(ser)).attr('fill','none').attr('stroke',css('--line')).attr('stroke-width',2).attr('stroke-linejoin','round'); }
+  if(undated.length){ const X0=W-R-(narrow?20:26); svg.append('text').attr('x',X0).attr('y',H-B+18).attr('text-anchor','middle').attr('fill',ink3).attr('font-size',11).text(i18('sem data','no date')); }
+  const pts=[];
+  dated.forEach(p=>pts.push([x(parseD(p.d).t),y(p.v),p]));
+  undated.forEach((p,i)=>pts.push([W-R-(narrow?20:26)+((i%5)-2)*3,y(p.v),p]));
+  const col=p=>p.st==='hit'?css('--good'):p.st==='miss'?css('--gold'):ink3;
+  svg.append('g').selectAll('circle').data(pts).join('circle').attr('cx',d=>d[0]).attr('cy',d=>d[1]).attr('r',4.2)
+    .attr('fill',d=>d[2].st==='hit'||d[2].st==='miss'?col(d[2]):'none').attr('stroke',d=>d[2].st==='hit'||d[2].st==='miss'?css('--surface'):ink3).attr('stroke-width',d=>d[2].st==='hit'||d[2].st==='miss'?1.4:1.4);
+  const ring=svg.append('circle').attr('r',8).attr('fill','none').attr('stroke',css('--ink')).attr('stroke-width',1.6).attr('opacity',0);
+  const del=d3.Delaunay.from(pts,d=>d[0],d=>d[1]);
+  svg.append('rect').attr('x',L).attr('y',T).attr('width',W-L-R+40).attr('height',H-T-B).attr('fill','transparent')
+    .on('mousemove',ev=>{ if(!pts.length) return; const [mx,my]=d3.pointer(ev); const d=pts[del.find(mx,my)]; if(Math.hypot(d[0]-mx,d[1]-my)>16){ring.attr('opacity',0);hideTip();return;} ring.attr('cx',d[0]).attr('cy',d[1]).attr('opacity',1); const p=d[2];
+      showTip(ev,`<div class="t3">${fmtD(p.d)}${p.o!=='s'?' · '+ORIG[p.o]:''}</div><div class="t1">${usd(p.v)}${p.vmax?i18(' a ',' to ')+usd(p.vmax):''} · ${esc(tx(p.p)||i18('sem nome','no name'))}</div>${p.n?`<div class="t2">${esc(tx(p.n))}</div>`:''}<div class="t3">${p.st==='hit'?i18('Atingido em ','Reached on ')+fmtD(p.hd):p.st==='miss'?i18('Não atingido até hoje','Not reached so far'):PST(p.st)||''}</div>`); })
+    .on('mouseleave',()=>{ring.attr('opacity',0);hideTip();})
+    .on('click',ev=>{ const [mx,my]=d3.pointer(ev); if(!pts.length) return; const d=pts[del.find(mx,my)]; if(Math.hypot(d[0]-mx,d[1]-my)<=16){ const el=document.querySelector(`.rung[data-v="${d[2]._g}"]`); if(el){document.querySelectorAll('.rung.hl').forEach(n=>n.classList.remove('hl')); el.classList.add('hl'); el.scrollIntoView({block:'center',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});} } });
+  const lg=svg.append('g').attr('transform',`translate(${L},12)`);
+  [['--good',i18('atingido depois do sonho','reached after the dream')],['--gold',i18('ainda não atingido','not reached yet')]].forEach(([c,t],i)=>{ const g=lg.append('g').attr('transform',`translate(${i*(narrow?0:190)},${narrow?i*16:0})`); g.append('circle').attr('r',4.2).attr('cx',4).attr('cy',0).attr('fill',css(c)); g.append('text').attr('x',13).attr('y',0).attr('dominant-baseline','middle').attr('fill',ink2).attr('font-size',11.5).text(t); });
+}
+function drawLadder(a){
+  chips('#f-ladder',[{k:'asc',label:i18('Do menor para o maior','Lowest to highest')},{k:'desc',label:i18('Do maior para o menor','Highest to lowest')}],k=>st.ladderSort===k,k=>{st.ladderSort=k;drawLadder(a);});
+  const groups=d3.groups(apts(a),p=>p._g).sort((g1,g2)=>{ const v1=g1[1][0].v, v2=g2[1][0].v; if(v1==null&&v2==null) return 0; if(v1==null) return 1; if(v2==null) return -1; return st.ladderSort==='asc'?v1-v2:v2-v1; });
+  const shown=st.ladderAll?groups:groups.slice(0,40); const LP=[];
+  $('#ladder').innerHTML=shown.map(([g,ps])=>{
+    const p0=ps[0];
+    const val=p0.v!=null?(p0.cur?`${esc(p0.cur)} ${fmtNum(p0.v)}`:usd(p0.v)+(p0.vmax?i18(' a ',' to ')+fmtNum(p0.vmax):'')):esc(tx(p0.vt)||i18('sem valor','no value'));
+    const sub=p0.v!=null&&!p0.cur&&a.cur?times(p0.v,a.cur):(p0.cur&&p0.vu?'≈ '+usd(p0.vu):'');
+    const people=ps.sort((x1,x2)=>(x1.d||'9')<(x2.d||'9')?-1:1).map(p=>{ LP.push(p); return `<button class="person" type="button" data-lp="${LP.length-1}"><b>${esc(tx(p.p)||i18('sem nome','no name'))}</b><span class="d">${p.d?fmtD(p.d):i18('sem data','no date')}</span>${p.o!=='s'?`<span class="src-l">${ORIG[p.o]}</span>`:''}${ptStatus(p,a)}${p.lc?`<span class="pill c">${ICON.c}${i18('A lista marca como cumprido','The list marks it fulfilled')}${p.lcd?i18(' em ',' on ')+fmtD(p.lcd):''}</span>`:''}<span class="go">${i18('ver sonho e fonte','see dream and source')} ›</span>${p.n?`<span class="n">${esc(tx(p.n))}</span>`:''}</button>`; }).join('');
+    return `<div class="rung" data-v="${esc(g)}"><div class="pv"><b>${val}</b><span>${esc(sub)}</span></div><div class="ppl">${people}</div></div>`;
+  }).join('') || `<p class="empty">${i18('Nenhum preço para este ativo.','No prices for this asset.')}</p>`;
+  const lm=$('#ladder-more'); lm.hidden=groups.length<=40||st.ladderAll; lm.textContent=i18(`Mostrar a escada inteira (${groups.length} preços diferentes)`,`Show the whole ladder (${groups.length} different prices)`);
+  lm.onclick=()=>{st.ladderAll=true;drawLadder(a);};
+  $('#ladder').querySelectorAll('[data-lp]').forEach(b=>b.onclick=()=>{ const p=LP[+b.dataset.lp]; const e=p.i&&byId.get(p.i); if(e) openDrawer(e); else openPoint(p,a.tk,null); });
+}
+
+
+// ---------- timeline de acontecimentos futuros ----------
+let renderFuture=()=>{};
+(function(){
+  const F=D.F; if(!F) return;
+  const qt=(v,f)=>{ const i=(v.length-1)*f, lo=Math.floor(i), hi=Math.min(lo+1,v.length-1); return v[lo]+(v[hi]-v[lo])*(i-lo); };
+  // etapas de cada moeda, recalculadas com a fonte escolhida
+  function stepsOf(c){
+    const all=c.all.filter(p=>srcOk(p.o||'s'));
+    const by=d3.group(all,p=>p.e);
+    const late=[...by.keys()].some(e=>e>=5&&by.get(e).length>=2);
+    const out=[];
+    [...by.keys()].sort((a,b)=>a-b).forEach(e=>{ const pts=by.get(e);
+      if(pts.length<2 && all.length>6 && !(e>=5&&!late)) return;
+      const v=pts.map(p=>p.v).sort(d3.ascending);
+      out.push({e,n:v.length,med:d3.median(v),p25:qt(v,.25),p75:qt(v,.75),min:v[0],max:v[v.length-1],pts}); });
+    return out;
+  }
+  let FC=[];
+  const SF=F.S;
+  const ACTN=a=>({1:i18('Antes da queda','Before the fall'),2:i18('A queda','The fall'),3:i18('A virada','The turnaround')})[a];
+  const ACTV={1:['--a1','--a1-w'],2:['--a2','--a2-w'],3:['--a3','--a3-w']};
+  const sv=k=>{const a=ACTV[SF[k-1].ato]; return `--sc:var(${a[0]});--sw:var(${a[1]})`;};
+  const zeros=v=>v>0&&v<1e-4?-Math.floor(Math.log10(v))-1:0;
+  const shortV=v=>{ if(v==null) return ''; if(v===0) return 'zero'; if(v>=1e6) return CUR()+(v/1e6).toLocaleString(LOC(),{maximumFractionDigits:1})+i18(' mi','M'); if(v>=1e4) return CUR()+Math.round(v/1e3).toLocaleString(LOC())+i18(' mil','K');
+    if(v>=1000) return CUR()+Math.round(v).toLocaleString(LOC()); if(v>=1) return CUR()+v.toLocaleString(LOC(),{minimumFractionDigits:v%1?2:0,maximumFractionDigits:2}); return usd(Number(v.toPrecision(2))); };
+  const nearZero=(st,cur)=>st.med===0 || (cur && st.med<=cur*0.005);
+  const label=(st,cur)=>nearZero(st,cur)?i18('perto de zero','near zero'):shortV(st.med);
+  const nS=n=>`${n} ${i18(n===1?'sonho':'sonhos',n===1?'dream':'dreams')}`;
+  const sub=(st,cur)=>{ const z=zeros(st.med); return [nearZero(st,cur)&&st.med>0?`${i18('meio','middle')}: ${shortV(st.med)}`:'', z?`${z} zeros`:'', nS(st.n)].filter(Boolean).join(' · '); };
+  const arrow='<svg class="arw" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h9M8.5 4.5L12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function panel(head,body){ $('#d-head').innerHTML=head; $('#d-body').innerHTML=body; $('#drawer').hidden=false; $('#d-x').focus({preventScroll:true}); }
+  function openStep(c,st){
+    const S0=SF[st.e-1];
+    const sorted=st.pts.slice().sort((a,b)=>(a.v??0)-(b.v??0));
+    const items=sorted.map((p,x)=>`<button class="it" type="button" data-x="${x}"><div class="w"><span class="v">${usd(p.v)}</span><b>${esc(tx(p.p)||i18('Nome não informado','Name not given'))}</b><span class="muted" style="font-size:13px">${p.d?fmtD(p.d):i18('sem data','no date')}${p.o&&p.o!=='s'?' · '+ORIG[p.o]:''}</span><span class="go">${i18('ver sonho e fonte','see dream and source')} ›</span></div>${p.n?`<div class="n">${esc(tx(p.n))}</div>`:''}</button>`).join('');
+    panel(`<p class="muted" style="font-size:13px">${st.e}. ${esc(tx(S0.nome))}</p><h3 style="font-size:20px">${esc(tx(c.nome))}: ${label(st,c.cur)}</h3>`,
+      `<p class="sub">${i18(`${st.n} ${st.n===1?'preço sonhado':'preços sonhados'} nesta etapa, de ${usd(st.min)} a ${usd(st.max)}. O valor do meio é ${usd(st.med)}${st.n>=4?`, e metade dos sonhos fica entre ${usd(st.p25)} e ${usd(st.p75)}`:''}.`,`${st.n} ${st.n===1?'dreamed price':'dreamed prices'} at this stage, from ${usd(st.min)} to ${usd(st.max)}. The middle value is ${usd(st.med)}${st.n>=4?`, and half of the dreams fall between ${usd(st.p25)} and ${usd(st.p75)}`:''}.`)}</p><div class="plist">${items}</div>`);
+    const back=()=>openStep(c,st);
+    $('#d-body').querySelectorAll('.it').forEach(b=>b.onclick=()=>{ const p=sorted[+b.dataset.x]; const e=p.i&&byId.get(p.i); if(e) openDrawer(e,back); else openPoint(p,c.tk,back); });
+    $('#drawer .db').scrollTop=0;
+  }
+  function openEvent(k){
+    const ev=F.ev[k-1]; const S0=SF[k-1];
+    const list=evList(k);
+    panel(`<p class="muted" style="font-size:13px">${k}. ${ACTN(S0.ato)}</p><h3 style="font-size:20px">${esc(tx(S0.nome))}</h3>`,
+      `<p class="sub">${i18(`${list.length} sonhos falam deste acontecimento.`,`${list.length} dreams talk about this event.`)}</p><div class="ex">${list.map(e=>`<button type="button" data-id="${esc(e.i)}"><span class="w"><b>${esc(tx(e.p))}</b> · ${fmtD(e.d)}</span><span class="t">${esc(tx(e.r))}</span></button>`).join('')}</div>`);
+    $('#d-body').querySelectorAll('[data-id]').forEach(b=>b.onclick=()=>openDrawer(byId.get(b.dataset.id),()=>openEvent(k)));
+    $('#drawer .db').scrollTop=0;
+  }
+
+  // ---------- gráfico único: uma linha por moeda ----------
+  const MAIN={BTC:'--s2',ETH:'--s7',XRP:'--s1',XLM:'--s3',SHIB:'--s8',LUNC:'--s5',Ouro:'--s4',Prata:'--s6'};
+  const fc={mode:'rel', on:new Set(F.coins.filter(c=>MAIN[c.tk]).map(c=>c.tk))};
+  const evList=k=>F.ev[k-1].ids.map(i=>byId.get(i)).filter(e=>e&&srcOk(e.o));
+  const colOf=c=>MAIN[c.tk]||'--s0';
+  function fcControls(){
+    chips('#fc-mode',[{k:'rel',label:i18('Variação desde hoje','Change from today')},{k:'abs',label:i18('Preço em dólar','Price in dollars')}],k=>fc.mode===k,k=>{fc.mode=k;fcControls();drawFC();});
+    const box=$('#fc-coins'); box.innerHTML='';
+    FC.filter(c=>c.cur!=null).forEach(c=>{ const b=document.createElement('button'); b.type='button'; b.className='chip';
+      b.innerHTML=`<span class="dot" style="background:var(${colOf(c)})"></span>${esc(tx(c.tk))}`; b.setAttribute('aria-pressed',fc.on.has(c.tk)?'true':'false');
+      b.onclick=()=>{ fc.on.has(c.tk)?fc.on.delete(c.tk):fc.on.add(c.tk); fcControls(); drawFC(); }; box.appendChild(b); });
+  }
+  const multTxt=m=>{ if(m>=1) return (m>=1000?Math.round(m).toLocaleString(LOC()):m.toLocaleString(LOC(),{maximumFractionDigits:m<10?1:0}))+'x'; return m.toLocaleString(LOC(),{maximumSignificantDigits:2})+'x'; };
+  const changeTxt=m=>{ if(Math.abs(m-1)<0.005) return i18('igual a hoje','same as today'); if(m>1) return i18('sobe ','up ')+multTxt(m); const pct=(1-m)*100; return i18('cai ','down ')+(pct>=99.95?i18('quase 100','almost 100'):pct.toLocaleString(LOC(),{maximumFractionDigits:pct>=99?1:0}))+'%'; };
+  function drawFC(){
+    const box=$('#fc'); const W=Math.max(720,box.parentNode.clientWidth); const H=W<820?400:470;
+    const L=66, R=96, T=40, B=74;
+    const NS=SF.length; const xs=i=>L+(W-L-R)*i/NS;
+    const vis=FC.filter(c=>fc.on.has(c.tk)&&c.cur!=null);
+    const series=vis.map(c=>{ const pts=[{i:0,v:c.cur,st:null}].concat(c.steps.map(st=>({i:st.e,v:st.med,st}))); pts.forEach(p=>{ p.m=p.v/c.cur; }); return {c,pts}; });
+    const val=p=>fc.mode==='rel'?p.m:p.v;
+    const pos=series.flatMap(s=>s.pts.map(val)).filter(v=>v>0);
+    const svg=d3.select(box).html('').append('svg').attr('width',W).attr('height',H).attr('role','img').attr('aria-label',i18('Gráfico de linhas com o caminho de preço de cada moeda pelos acontecimentos','Line chart with the price path of each coin through the events'));
+    const ink=css('--ink'), ink2=css('--ink-2'), ink3=css('--ink-3'), surf=css('--surface'), wash=css('--wash-2');
+    // faixas dos atos
+    const ACTV2={1:['--a1','--a1-w',ACTN(1)],2:['--a2','--a2-w',ACTN(2)],3:['--a3','--a3-w',ACTN(3)]};
+    [1,2,3].forEach(a=>{ const idx=SF.map((s,i)=>s.ato===a?i+1:-1).filter(i=>i>0); const x0=(xs(idx[0])+xs(idx[0]-1))/2, x1=Math.min(W-R+40,(xs(idx[idx.length-1])+xs(Math.min(NS,idx[idx.length-1]+1)))/2+(idx[idx.length-1]===NS?(W-R-xs(NS))/2+20:0));
+      svg.append('rect').attr('x',x0).attr('y',T-30).attr('width',x1-x0).attr('height',H-B-T+30).attr('rx',10).attr('fill',css(ACTV2[a][1])).attr('opacity',.7);
+      svg.append('text').attr('x',x0+10).attr('y',T-12).attr('fill',css(ACTV2[a][0])).attr('font-size',12.5).attr('font-weight',700).text(ACTV2[a][2]); });
+    if(!pos.length){ svg.append('text').attr('x',W/2).attr('y',H/2).attr('text-anchor','middle').attr('fill',ink3).text(i18('Escolha pelo menos uma moeda','Pick at least one coin')); return; }
+    const lo=d3.min(pos), hi=d3.max(pos);
+    const y=d3.scaleLog().domain([lo/3,hi*3]).range([H-B,T]);
+    const clampV=v=>v>0?v:y.domain()[0];
+    // grade em potências de 10
+    const e0=Math.ceil(Math.log10(y.domain()[0])), e1=Math.floor(Math.log10(y.domain()[1]));
+    const step=Math.max(1,Math.ceil((e1-e0+1)/8));
+    const start=(fc.mode==='rel'&&e0<=0&&e1>=0)?e0+((((-e0)%step)+step)%step):e0;
+    const exps=[]; for(let e=start;e<=e1;e+=step) exps.push(e);
+    for(const e of exps.filter(e=>e!==null)){ const v=Math.pow(10,e), Y=y(v); const isOne=fc.mode==='rel'&&e===0;
+      svg.append('line').attr('x1',L).attr('x2',W-R+8).attr('y1',Y).attr('y2',Y).attr('stroke',isOne?ink3:wash).attr('stroke-opacity',isOne?.9:.6).attr('stroke-dasharray',isOne?'4 4':null);
+      svg.append('text').attr('x',L-8).attr('y',Y).attr('text-anchor','end').attr('dominant-baseline','middle').attr('fill',isOne?ink:ink3).attr('font-size',11).attr('font-weight',isOne?700:400).text(fc.mode==='rel'?(isOne?i18('hoje','today'):multTxt(v)):fmtNum(v)); }
+    // eixo x: hoje + acontecimentos
+    const xl=[i18('Hoje','Today')].concat(SF.map((s,i)=>(i+1)+'. '+tx(s.nome)));
+    xl.forEach((t,i)=>{ const words=t.split(' '); const lines=[]; let cur='';
+      words.forEach(w=>{ if((cur+' '+w).trim().length>14&&cur){lines.push(cur);cur=w;} else cur=(cur+' '+w).trim(); }); if(cur) lines.push(cur);
+      lines.slice(0,3).forEach((ln,j)=>svg.append('text').attr('x',xs(i)).attr('y',H-B+20+j*14).attr('text-anchor','middle').attr('fill',i===0?ink:ink2).attr('font-size',11.5).attr('font-weight',i===0?700:600).text(ln)); });
+    // linhas
+    const line=d3.line().x(p=>xs(p.i)).y(p=>y(clampV(val(p))));
+    series.forEach(s=>{ svg.append('path').attr('d',line(s.pts)).attr('fill','none').attr('stroke',css(colOf(s.c))).attr('stroke-width',2.4).attr('stroke-linejoin','round').attr('stroke-linecap','round'); });
+    const marks=[];
+    series.forEach(s=>s.pts.forEach(p=>marks.push([xs(p.i),y(clampV(val(p))),p,s.c])));
+    svg.append('g').selectAll('circle').data(marks).join('circle').attr('cx',d=>d[0]).attr('cy',d=>d[1]).attr('r',d=>d[2].i===0?3.5:4.6)
+      .attr('fill',d=>css(colOf(d[3]))).attr('stroke',surf).attr('stroke-width',2);
+    // rótulos no fim de cada linha, sem sobrepor
+    const ends=series.map(s=>{ const p=s.pts[s.pts.length-1]; return {c:s.c,x:xs(p.i),y:y(clampV(val(p)))}; }).sort((a,b)=>a.y-b.y);
+    for(let i=1;i<ends.length;i++) if(ends[i].y-ends[i-1].y<14) ends[i].y=ends[i-1].y+14;
+    ends.forEach(e=>svg.append('text').attr('x',e.x+9).attr('y',e.y).attr('dominant-baseline','middle').attr('fill',ink).attr('font-size',12).attr('font-weight',700).attr('paint-order','stroke').attr('stroke',surf).attr('stroke-width',3).text(tx(e.c.tk)));
+    // mira e tooltip
+    const cross=svg.append('line').attr('y1',T-4).attr('y2',H-B).attr('stroke',ink3).attr('stroke-width',1.2).attr('opacity',0);
+    const ring=svg.append('circle').attr('r',8).attr('fill','none').attr('stroke',ink).attr('stroke-width',1.6).attr('opacity',0);
+    const del=d3.Delaunay.from(marks,d=>d[0],d=>d[1]);
+    svg.append('rect').attr('x',L-10).attr('y',T-30).attr('width',W-L-R+40).attr('height',H-B-T+30).attr('fill','transparent').style('cursor','crosshair')
+      .on('mousemove',ev=>{ const [mx,my]=d3.pointer(ev); let i=Math.round((mx-L)/((W-L-R)/NS)); i=Math.max(0,Math.min(NS,i));
+        cross.attr('x1',xs(i)).attr('x2',xs(i)).attr('opacity',.8);
+        const near=marks.length?marks[del.find(mx,my)]:null; const hot=near&&Math.hypot(near[0]-mx,near[1]-my)<14?near:null;
+        ring.attr('opacity',hot?1:0); if(hot) ring.attr('cx',hot[0]).attr('cy',hot[1]);
+        const rows=series.map(s=>({c:s.c,p:s.pts.find(p=>p.i===i)})).filter(r=>r.p).sort((a,b)=>b.p.m-a.p.m);
+        const title=i===0?i18('Hoje, ','Today, ')+fmtD(F.coins[0].curD):i+'. '+tx(SF[i-1].nome);
+        showTip(ev,`<div class="t1">${esc(title)}</div>`+(rows.length?rows.map(r=>`<div class="row"><span><i style="background:var(${colOf(r.c)})"></i><b>${esc(tx(r.c.tk))}</b> ${r.p.st&&(r.p.v===0||r.p.v<=r.c.cur*0.005)?i18('perto de zero','near zero'):usd(r.p.v)}</span><em>${i===0?'':changeTxt(r.p.m)+(r.p.st?' · '+nS(r.p.st.n):'')}</em></div>`).join(''):`<div class="t3">${i18('Nenhuma moeda escolhida tem preço sonhado nesta etapa.','None of the chosen coins has a dreamed price at this stage.')}</div>`)+(hot&&hot[2].st?`<div class="t3">${i18('Clique para ver quem sonhou','Click to see who dreamed')} ${esc(tx(hot[3].tk))}</div>`:''));
+      })
+      .on('mouseleave',()=>{cross.attr('opacity',0);ring.attr('opacity',0);hideTip();})
+      .on('click',ev=>{ const [mx,my]=d3.pointer(ev); if(!marks.length) return; const d=marks[del.find(mx,my)]; if(Math.hypot(d[0]-mx,d[1]-my)<14&&d[2].st) openStep(d[3],d[2].st); });
+  }
+  let fcT, fcW=innerWidth; addEventListener('resize',()=>{ if(Math.abs(innerWidth-fcW)<4) return; fcW=innerWidth; clearTimeout(fcT); fcT=setTimeout(drawFC,150); });
+
+  renderFuture=function(){
+  FC=F.coins.map(c=>Object.assign({},c,{steps:stepsOf(c)})).filter(c=>c.steps.length);
+  fcControls(); drawFC();
+  // caminhos
+  $('#paths').innerHTML=(FC.length?'':`<p class="empty">${i18('Nenhum preço desta fonte nos acontecimentos.','No prices from this source in the events.')}</p>`)+FC.map((c,ci)=>{
+    const chain=[`<span class="step now"><small style="color:var(--ink-3)">${i18('Hoje','Today')}</small><b>${c.cur!=null?shortV(c.cur):i18('sem cotação','no quote')}</b><span>${c.cur!=null?fmtD(c.curD):i18('moeda sem histórico','coin without history')}</span></span>`]
+      .concat(c.steps.map((st,si)=>`<button class="step" type="button" style="${sv(st.e)}" data-c="${ci}" data-s="${si}"><small>${st.e}. ${esc(tx(SF[st.e-1].nome))}</small><b>${label(st,c.cur)}</b><span>${sub(st,c.cur)}</span></button>`));
+    return `<div class="path"><div class="cn"><b>${esc(tx(c.tk))}</b><span>${esc(tx(c.nome))}</span></div><div class="chain">${chain.join(arrow)}</div></div>`;
+  }).join('');
+  $('#paths').querySelectorAll('.step[data-c]').forEach(b=>b.onclick=()=>{ const c=FC[+b.dataset.c]; openStep(c,c.steps[+b.dataset.s]); });
+  // acontecimentos
+  $('#events').innerHTML=SF.map((S0,i)=>{
+    const k=i+1, list=evList(k);
+    const moves=[];
+    FC.forEach((c,ci)=>{ const si=c.steps.findIndex(st=>st.e===k); if(si<0) return; const st=c.steps[si];
+      const prev=si>0?c.steps[si-1]:null; const from=prev?label(prev,c.cur):(c.cur!=null?shortV(c.cur)+i18(' hoje',' today'):null);
+      moves.push(`<button class="move" type="button" data-c="${ci}" data-s="${si}"><b>${esc(tx(c.tk))}</b><span>${from?i18(`de ${from} para `,`from ${from} to `):''}<span class="to">${label(st,c.cur)}</span></span><span class="meta">${nS(st.n)}</span></button>`); });
+    const ex=list.slice(0,3).map(e=>`<button type="button" data-id="${esc(e.i)}"><span class="w"><b>${esc(tx(e.p))}</b> · ${fmtD(e.d)}</span><span class="t">${esc(tx(e.r))}</span></button>`).join('');
+    const ord=F.ev[i].ord.filter(o=>{const e=byId.get(o.i); return e&&srcOk(e.o);}).slice(0,2).map(o=>`<p class="ordq"><b>${esc(tx(o.p))}</b>, ${fmtD(o.d)}: ${esc(tx(o.t))}</p>`).join('');
+    return `<article class="ev" style="${sv(k)}"><span class="node">${k}</span><div class="eh"><small>${ACTN(S0.ato)}</small><h3>${esc(tx(S0.nome))}</h3><p>${esc(tx(S0.desc))}</p></div>${moves.length?`<div class="moves">${moves.join('')}</div>`:''}${ord}<div class="ex">${ex}</div><button class="lnk" type="button" data-ev="${k}">${list.length?i18(`Ver os ${list.length.toLocaleString(LOC())} sonhos deste acontecimento`,`See the ${list.length.toLocaleString(LOC())} dreams of this event`):i18('Nenhum sonho desta fonte aqui','No dreams from this source here')}</button></article>`;
+  }).join('');
+  $('#events').querySelectorAll('.move').forEach(b=>b.onclick=()=>{ const c=FC[+b.dataset.c]; openStep(c,c.steps[+b.dataset.s]); });
+  $('#events').querySelectorAll('.ex [data-id]').forEach(b=>b.onclick=()=>openDrawer(byId.get(b.dataset.id)));
+  $('#events').querySelectorAll('[data-ev]').forEach(b=>b.onclick=()=>{ if(evList(+b.dataset.ev).length) openEvent(+b.dataset.ev); });
+  };
+})();
+
+// ---------- método ----------
+function drawMethod(){ $('#method').innerHTML=META.metodo.map(t=>`<li>${esc(tx(t))}</li>`).join(''); }
+drawMethod();
+
+// ---------- ciclo ----------
+function refresh(keepList){ st.shown=60; drawControls(); drawTimeline(); drawList(); drawPeople(); drawDeadlines(); }
+function drawSrc(){
+  const nS=E.filter(e=>e.o==='s'||e.o==='sl').length, nL=E.filter(e=>e.o==='l'||e.o==='sl').length;
+  const opts=[['all',i18('Ambos','Both'),E.length],['s','Prophetic Money blog',nS],['l',i18('Lista Lucas Borin','Lucas Borin list'),nL]];
+  $('#srcseg').innerHTML=opts.map(([k,t,n])=>`<button type="button" data-k="${k}" aria-pressed="${SRC===k}">${t}<span>${n.toLocaleString(LOC())}</span></button>`).join('');
+  $('#srcseg').querySelectorAll('button').forEach(b=>b.onclick=()=>setSrc(b.dataset.k));
+}
+function setSrc(k){
+  SRC=k; try{ localStorage.setItem('fonte',k); }catch(_){}
+  st.orig = k==='all'?new Set(['s','l','sl']):new Set([k,'sl']);
+  st.pessoa=null; st.dl=null; st.ladderAll=false;
+  drawSrc(); drawHead(); refresh(); drawAssets(); drawAsset(); renderFuture();
+}
+function applyStatic(){
+  document.documentElement.lang=EN()?'en':'pt-BR';
+  document.querySelectorAll('[data-en]').forEach(el=>{ if(el.dataset.pt==null) el.dataset.pt=el.innerHTML; el.innerHTML=EN()?el.dataset.en:el.dataset.pt; });
+  document.querySelectorAll('[data-en-ph]').forEach(el=>{ if(el.dataset.ptPh==null) el.dataset.ptPh=el.placeholder; el.placeholder=EN()?el.dataset.enPh:el.dataset.ptPh; });
+}
+function drawLang(){
+  $('#langseg').innerHTML=[['pt','Português'],['en','English']].map(([k,t])=>`<button type="button" data-k="${k}" aria-pressed="${LANG===k}">${t}</button>`).join('');
+  $('#langseg').querySelectorAll('button').forEach(b=>b.onclick=()=>setLang(b.dataset.k));
+}
+function setLang(k){
+  if(k===LANG) return;
+  LANG=k; try{ localStorage.setItem('lang',k); }catch(_){}
+  try{ if(PATHMODE) history.replaceState(null,'',(k==='en'?'/eng':'/')+location.hash.replace(/^#eng$/,'')); else history.replaceState(null,'',k==='en'?'#eng':location.pathname+location.search); }catch(_){}
+  setLabels(); applyStatic(); drawLang(); drawSrc(); drawHead(); drawLegend(); drawMethod();
+  refresh(); drawAssets(); drawAsset(); renderFuture();
+  if(!$('#drawer').hidden) $('#drawer').hidden=true;
+}
+st.orig = SRC==='all'?new Set(['s','l','sl']):new Set([SRC,'sl']);
+applyStatic(); drawLang();
+drawSrc(); drawHead(); renderFuture();
+drawControls(); drawTimeline(); drawList(); drawPeople(); drawDeadlines(); drawAssets(); drawAsset();
+let rT; let lastW=innerWidth; addEventListener('resize',()=>{ if(Math.abs(innerWidth-lastW)<4) return; lastW=innerWidth; clearTimeout(rT); rT=setTimeout(()=>{drawTimeline();drawDeadlines();drawAsset();},150); });
+if(location.hash==='#moedas') document.getElementById('moedas').scrollIntoView();
+})();
+</script>
