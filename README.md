@@ -45,6 +45,10 @@ SYNC_ON_START=1 python3 app/server.py   # sincroniza ao subir
 
 Sem dependências além da biblioteca padrão do Python (e `tzdata`). Os dados de execução ficam em `DATA_DIR` (no Railway, um volume em `/data`).
 
+## Pesquisas
+
+- [`docs/sonhos-shib-lunc.md`](docs/sonhos-shib-lunc.md): todos os sonhos, visões e palavras proféticas sobre Shiba Inu (SHIB) e Terra Luna Classic (LUNC) localizados até 08/10/2026, da base deste projeto e de uma varredura da web (YouTube, X, TikTok, Facebook, Rumble, Patreon, z3news e blogs), com resumo e link de cada fonte. Os de 2026 vêm primeiro.
+
 ## Aviso
 
 Os vereditos (cumpriu, falhou) são os que o próprio site ou a lista afirmam. Previsões com prazo ainda aberto ficam sem veredito. Nada aqui é recomendação de investimento.
