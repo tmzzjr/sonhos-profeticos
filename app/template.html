@@ -463,7 +463,7 @@ let ST, TIPOL, ORIG;
 function setLabels(){
   ST = {c:{t:i18('Cumpriu, segundo a fonte','Fulfilled, per the source'),s:i18('Cumpriu','Fulfilled'),v:'--good'},f:{t:i18('Falhou, segundo a fonte','Failed, per the source'),s:i18('Falhou','Failed'),v:'--bad'},p:{t:i18('Cumpriu em parte','Partly fulfilled'),s:i18('Em parte','Partly'),v:'--part'},n:{t:i18('Sem veredito','No verdict'),s:i18('Sem veredito','No verdict'),v:'--star'}};
   TIPOL = {sonho:i18('Sonho','Dream'),visão:i18('Visão','Vision'),palavra:i18('Palavra','Prophetic word'),ensino:i18('Ensino','Teaching'),análise:i18('Análise do site','Site analysis'),preço:i18('Só o preço','Price only')};
-  ORIG = {s:'Prophetic Money',l:i18('Lista Lucas Borin','Lucas Borin list'),sl:i18('Blog e lista','Blog and list')};
+  ORIG = {s:'Prophetic Money',l:i18('Lista Lucas Borin','Lucas Borin list'),sl:i18('Blog e lista','Blog and list'),w:'Scraped from web'};
   MES = EN()?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
   MESL = EN()?['January','February','March','April','May','June','July','August','September','October','November','December']:['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 }
@@ -471,8 +471,8 @@ setLabels();
 const STN = {c:'--good-n',f:'--bad-n',p:'--part-n',n:'--star'};
 const TIPOS = ['sonho','visão','palavra','ensino','análise','preço'];
 let SRC='all';
-try{ const v=localStorage.getItem('fonte'); if(v==='s'||v==='l') SRC=v; }catch(_){}
-const srcOk=o=>SRC==='all'||o===SRC||o==='sl';
+try{ const v=localStorage.getItem('fonte'); if(v==='s'||v==='l'||v==='w') SRC=v; }catch(_){}
+const srcOk=o=>SRC==='all'||o===SRC||(o==='sl'&&SRC!=='w');
 const apts=a=>a.pts.filter(p=>srcOk(p.o||'s'));
 const ICON = {
   c:'<svg width="11" height="11" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 6.3l2.3 2.3 4.7-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -492,7 +492,7 @@ const byId = new Map(E.map(e=>[e.i,e]));
 const TEMAS = D.temas;
 
 // ---------- estado ----------
-const st = {q:'', tipos:new Set(TIPOS), orig:new Set(['s','l','sl']), sts:new Set(['c','f','p','n']), pessoa:null,
+const st = {q:'', tipos:new Set(TIPOS), orig:new Set(['s','l','sl','w']), sts:new Set(['c','f','p','n']), pessoa:null,
   group:'tema', range:[Date.UTC(2020,0,1), TODAY.getTime()+86400000*45], sort:'desc', shown:60, dl:null, sel:null,
   asset:A[0].k, ladderSort:'asc', ladderAll:false};
 
@@ -1074,14 +1074,14 @@ drawMethod();
 // ---------- ciclo ----------
 function refresh(keepList){ st.shown=60; drawControls(); drawTimeline(); drawList(); drawPeople(); drawDeadlines(); }
 function drawSrc(){
-  const nS=E.filter(e=>e.o==='s'||e.o==='sl').length, nL=E.filter(e=>e.o==='l'||e.o==='sl').length;
-  const opts=[['all',i18('Ambos','Both'),E.length],['s','Prophetic Money blog',nS],['l',i18('Lista Lucas Borin','Lucas Borin list'),nL]];
+  const nS=E.filter(e=>e.o==='s'||e.o==='sl').length, nL=E.filter(e=>e.o==='l'||e.o==='sl').length, nW=E.filter(e=>e.o==='w').length;
+  const opts=[['all',i18('Todas','All'),E.length],['s','Prophetic Money blog',nS],['l',i18('Lista Lucas Borin','Lucas Borin list'),nL],['w','Scraped from web',nW]];
   $('#srcseg').innerHTML=opts.map(([k,t,n])=>`<button type="button" data-k="${k}" aria-pressed="${SRC===k}">${t}<span>${n.toLocaleString(LOC())}</span></button>`).join('');
   $('#srcseg').querySelectorAll('button').forEach(b=>b.onclick=()=>setSrc(b.dataset.k));
 }
 function setSrc(k){
   SRC=k; try{ localStorage.setItem('fonte',k); }catch(_){}
-  st.orig = k==='all'?new Set(['s','l','sl']):new Set([k,'sl']);
+  st.orig = k==='all'?new Set(['s','l','sl','w']):k==='w'?new Set(['w']):new Set([k,'sl']);
   st.pessoa=null; st.dl=null; st.ladderAll=false;
   drawSrc(); drawHead(); refresh(); drawAssets(); drawAsset(); renderFuture();
 }
@@ -1102,7 +1102,7 @@ function setLang(k){
   refresh(); drawAssets(); drawAsset(); renderFuture();
   if(!$('#drawer').hidden) $('#drawer').hidden=true;
 }
-st.orig = SRC==='all'?new Set(['s','l','sl']):new Set([SRC,'sl']);
+st.orig = SRC==='all'?new Set(['s','l','sl','w']):SRC==='w'?new Set(['w']):new Set([SRC,'sl']);
 applyStatic(); drawLang();
 drawSrc(); drawHead(); renderFuture();
 drawControls(); drawTimeline(); drawList(); drawPeople(); drawDeadlines(); drawAssets(); drawAsset();
