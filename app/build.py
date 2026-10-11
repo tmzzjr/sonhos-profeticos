@@ -25,6 +25,11 @@ def with_web(dataset):
         return dataset
     have = {e.get('i') for e in dataset['E']}
     extra = [e for e in json.load(open(WEB, encoding='utf-8')) if e.get('i') not in have]
+    # sonhos que entraram depois da base de 11/10/2026 (3.675) levam a etiqueta "New"
+    base_path = os.path.join(os.path.dirname(WEB), 'web_base_ids.json')
+    if os.path.exists(base_path):
+        base = set(json.load(open(base_path, encoding='utf-8')))
+        extra = [dict(e, nw=1) if e['i'] not in base else e for e in extra]
     meta = dict(dataset.get('meta') or {})
     meta['metodo'] = list(meta.get('metodo') or []) + [
         f'A fonte "Scraped from web" reúne {len(extra)} sonhos com SHIB, LUNC, XRP, XLM, BNB Frog e PEPE achados no YouTube (vídeos e comentários, inclusive todos os do canal Prophetic Insight), '

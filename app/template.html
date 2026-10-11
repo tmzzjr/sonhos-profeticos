@@ -84,6 +84,7 @@ section.block{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-
 .pill.f{background:color-mix(in srgb,var(--bad) 15%,transparent);color:var(--bad)}
 .pill.p{background:color-mix(in srgb,var(--part) 18%,transparent);color:var(--part)}
 .pill.gold{background:var(--gold-wash);color:var(--gold-ink)}
+.pill.new{background:color-mix(in srgb,var(--good) 18%,transparent);color:var(--good)}
 .pill svg{flex:none}
 
 /* Céu: linha do tempo */
@@ -730,7 +731,7 @@ drawLegend();
 function entryHTML(e){
   const pr=(e.pr||[]).slice(0,6).map(p=>`<span class="pill gold">${esc(tx(p[0]))} ${usd(p[1])}</span>`).join('');
   const tags=[stPill(e.s), `<span class="pill">${TIPOL[e.t]}</span>`, `<span class="pill">${esc(tx(e.m))}</span>`, e.at?`<span class="pill">${i18('Prazo','Deadline')}: ${esc(tx(e.at))}</span>`:'', pr].join('');
-  return `<div class="entry" data-id="${esc(e.i)}" tabindex="0"><div class="when">${fmtD(e.d)}</div><div class="body"><div class="who"><b>${esc(tx(e.p))}</b>${e.o!=='s'?`<span class="src-l">${ORIG[e.o]}</span>`:''}</div><p class="res">${esc(tx(e.r))}</p><div class="tags">${tags}</div></div></div>`;
+  return `<div class="entry" data-id="${esc(e.i)}" tabindex="0"><div class="when">${fmtD(e.d)}</div><div class="body"><div class="who"><b>${esc(tx(e.p))}</b>${e.o!=='s'?`<span class="src-l">${ORIG[e.o]}</span>`:''}${e.nw?'<span class="pill new">New</span>':''}</div><p class="res">${esc(tx(e.r))}</p><div class="tags">${tags}</div></div></div>`;
 }
 function bindEntries(root){
   root.querySelectorAll('.entry').forEach(n=>{ const go=()=>openDrawer(byId.get(n.dataset.id)); n.onclick=go; n.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go();}}; });
@@ -814,7 +815,7 @@ function openDrawer(e, back){
   const pr=(e.pr||[]).map(p=>`<span class="pill gold">${esc(tx(p[0]))} ${usd(p[1])}${p[2]?' · '+esc(tx(p[2])):''}</span>`).join('');
   const links=[]; if(e.u) links.push(`<a href="${esc(e.u)}" target="_blank" rel="noopener">${esc(e.ut||i18('Post no propheticmoney.com','Post on propheticmoney.com'))}</a>`); if(e.v) links.push(`<a href="${esc(e.v)}" target="_blank" rel="noopener">${i18('Vídeo ou post original','Original video or post')}</a>`);
   if(e.o==='l'||e.o==='sl') links.push(`<span>${LISTSRC()}</span>`);
-  $('#d-body').innerHTML=`<div class="tags" style="display:flex;flex-wrap:wrap;gap:6px">${stPill(e.s)}<span class="pill">${TIPOL[e.t]}</span><span class="pill">${esc(tx(e.m))}</span>${e.o!=='s'?`<span class="pill">${ORIG[e.o]}</span>`:''}</div>
+  $('#d-body').innerHTML=`<div class="tags" style="display:flex;flex-wrap:wrap;gap:6px">${stPill(e.s)}<span class="pill">${TIPOL[e.t]}</span><span class="pill">${esc(tx(e.m))}</span>${e.o!=='s'?`<span class="pill">${ORIG[e.o]}</span>`:''}${e.nw?'<span class="pill new">New</span>':''}</div>
   <p style="font-size:16px">${esc(tx(e.r))}</p>
   ${e.q?`<blockquote lang="en">“${esc(e.q)}”</blockquote>`:''}
   <dl class="kv">
