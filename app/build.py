@@ -29,8 +29,16 @@ def with_web(dataset):
     meta['metodo'] = list(meta.get('metodo') or []) + [
         f'A fonte "Scraped from web" reúne {len(extra)} sonhos com SHIB, LUNC, XRP, XLM, BNB Frog e PEPE achados no YouTube (vídeos e comentários, inclusive todos os do canal Prophetic Insight), '
         'Reddit, 4chan /biz/, TikTok, X, Facebook, Instagram, Binance Square e Stocktwits, em inglês, português e espanhol, '
-        'coletados entre 09 e 11/10/2026. Cada um tem o link da fonte. Não passam pelo sync diário e não entram nas escadas de preço.']
-    return dict(dataset, E=dataset['E'] + extra, meta=meta)
+        'coletados entre 09 e 11/10/2026. Cada um tem o link da fonte. Não passam pelo sync diário. Os preços citados neles entram nas escadas de preço e na timeline de acontecimentos.']
+    out = dict(dataset, E=dataset['E'] + extra, meta=meta)
+    wp_path = os.path.join(os.path.dirname(WEB), 'web_points.json')
+    if os.path.exists(wp_path):
+        wp = json.load(open(wp_path, encoding='utf-8'))
+        out['A'] = [dict(a, pts=a['pts'] + wp['A'].get(a['tk'], [])) for a in dataset['A']]
+        F = dataset['F']
+        out['F'] = dict(F, coins=[dict(c, all=c['all'] + wp['F'].get(c['tk'], [])) for c in F['coins']])
+        out['F']['ev'] = [dict(ev, ids=ev['ids'] + wp.get('ev', {}).get(str(k), [])) for k, ev in enumerate(F['ev'], 1)]
+    return out
 
 
 def render(dataset, template_path=None):

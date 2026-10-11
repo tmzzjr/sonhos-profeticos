@@ -10,7 +10,7 @@
   --night:#0f1431; --night-band:#141a3d; --night-ink:#e8eaf7; --night-ink-2:#9aa1c6; --night-grid:rgba(232,234,247,.07);
   --star:#c3c9ea; --gold:#d69a21; --gold-ink:#8a5c06; --gold-wash:rgba(214,154,33,.16);
   --good:#1f9a5c; --bad:#d9463e; --part:#d58a12;
-  --good-n:#43c987; --bad-n:#ff6f66; --part-n:#f3b748;
+  --good-n:#43c987; --bad-n:#ff6f66; --part-n:#f3b748; --seen:#3ddc84;
   --line:#5b6284;
   --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s8:#e34948; --s0:#8a8fa6;
   --a1:#2a6fd0; --a2:#d0443b; --a3:#b77c00; --a1-w:rgba(42,111,208,.10); --a2-w:rgba(208,68,59,.09); --a3-w:rgba(194,132,0,.12);
@@ -100,6 +100,9 @@ section.block{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-
 #tl{min-width:720px}
 #tl svg{display:block}
 .tl-note{font-size:13px;color:var(--night-ink-2)}
+.zoom{display:inline-flex;align-items:center;gap:8px;color:var(--night-ink-2);font-size:13px;font-weight:550}
+.zoom input{width:170px;accent-color:var(--gold);cursor:pointer}
+.zoom b{color:var(--night-ink);font-variant-numeric:tabular-nums;min-width:30px}
 .tl-note b{color:var(--night-ink)}
 
 /* Tooltip */
@@ -325,6 +328,7 @@ footer.notes ul{margin:0;padding-left:18px;display:grid;gap:6px}
       <div class="sky-bar">
         <div class="seg" id="f-group"><span class="lbl" data-en="Group by">Agrupar por</span></div>
         <div class="seg" id="f-range"><span class="lbl" data-en="Period">Período</span></div>
+        <label class="zoom" for="zoom"><span data-en="Zoom">Zoom</span><input id="zoom" type="range" min="1" max="24" step="1" value="1" aria-label="Zoom na linha do tempo"><b id="zoom-v">1x</b></label>
       </div>
       <div class="scroller"><div id="tl"></div></div>
       <div class="sky-bar">
@@ -598,7 +602,7 @@ function drawTimeline(){
     const bins=new Map(); let maxK=0;
     const ks=pts.map(e=>{ const b=Math.floor(x(e._t)/binW); const k=bins.get(b)||0; bins.set(b,k+1); if(k>maxK)maxK=k; return k; });
     const need=(maxK+1)*step+10;
-    const h=Math.max(narrow?44:34, Math.min(150, need + (narrow?14:0)));
+    const h=Math.max(narrow?44:34, Math.min(480, need + (narrow?14:0)));
     return {g,pts,ks,h,maxK};
   });
   let y0=OVH+gap+EVH;
@@ -682,11 +686,15 @@ function drawTimeline(){
   // desenha: neutros primeiro, vereditos por cima
   const order={n:0,p:1,c:2,f:1};
   pos.sort((a,b)=>order[a[2].s]-order[b[2].s]);
-  pg.selectAll('circle.pt').data(pos).join('circle').attr('class','pt')
-    .attr('cx',d=>d[0]).attr('cy',d=>d[1]).attr('r',d=>d[2]._p==='d'?r:r-0.6)
-    .attr('fill',d=>d[2]._p==='d'?css(STN[d[2].s]):'none')
-    .attr('stroke',d=>d[2]._p==='d'?'none':css(STN[d[2].s])).attr('stroke-width',1.3)
-    .attr('opacity',d=>d[2].s==='n'?.78:1);
+  const COL={}; ['c','p','f','n'].forEach(k=>COL[k]=css(STN[k])); const seenC=css('--seen');
+  const circ=pg.selectAll('circle.pt').data(pos).join('circle').attr('class','pt').attr('cx',d=>d[0]).attr('cy',d=>d[1]);
+  // sonho já aberto por quem está vendo fica verde, com um aro claro
+  function paint(){ const sv=d=>SEEN.has(d[2].i);
+    circ.attr('r',d=>sv(d)?r+0.4:(d[2]._p==='d'?r:r-0.6))
+      .attr('fill',d=>sv(d)?seenC:(d[2]._p==='d'?COL[d[2].s]:'none'))
+      .attr('stroke',d=>sv(d)?nightInk:(d[2]._p==='d'?'none':COL[d[2].s])).attr('stroke-width',d=>sv(d)?1:1.3)
+      .attr('opacity',d=>sv(d)?1:(d[2].s==='n'?.78:1)); }
+  paint(); tl.paint=paint;
   const ring=pg.append('circle').attr('r',r+4).attr('fill','none').attr('stroke',gold).attr('stroke-width',2).attr('opacity',0);
   const selRing=pg.append('circle').attr('r',r+4.5).attr('fill','none').attr('stroke',gold).attr('stroke-width',2.4).attr('opacity',0);
   tl.selRing=selRing; tl.pos=pos;
@@ -697,17 +705,25 @@ function drawTimeline(){
      .on('mouseleave',()=>{ring.attr('opacity',0);hideTip();})
      .on('click',ev=>{ const p=near(ev); if(p) openDrawer(p[2]); });
   markSel();
+  const zz=$('#zoom'); if(zz){ const z=Math.max(1,Math.min(24,Math.round((ZF[1]-ZF[0])/(st.range[1]-st.range[0])))); zz.value=z; $('#zoom-v').textContent=z+'x'; }
   // nota
   const outside=base.length-list.length, undated=base.filter(e=>!e._t).length;
   $('#tl-note').innerHTML=`<b>${list.length.toLocaleString(LOC())}</b> ${i18('no período escolhido','in the chosen period')}`+(outside-undated>0?` · ${(outside-undated).toLocaleString(LOC())} ${i18('fora dele','outside it')}`:'')+(undated?` · ${undated} ${i18('sem data (estão na lista)','without a date (they are in the list)')}`:'');
 }
+// zoom: encurta o período em volta do centro atual; arrastar a faixa de cima move o trecho
+const ZF=[Date.UTC(2020,0,1), TODAY.getTime()+86400000*45];
+function setZoom(z){ const c=(st.range[0]+st.range[1])/2, span=(ZF[1]-ZF[0])/z; let a=c-span/2, b=c+span/2;
+  if(a<ZF[0]){ b+=ZF[0]-a; a=ZF[0]; } if(b>ZF[1]){ a-=b-ZF[1]; b=ZF[1]; }
+  st.range=[Math.max(ZF[0],a),Math.min(ZF[1],b)]; st.rangeKey=null; drawControls(); refresh(true); }
+let SEEN=new Set(); try{ SEEN=new Set(JSON.parse(localStorage.getItem('vistos')||'[]')); }catch(_){}
+function markSeen(id){ if(SEEN.has(id)) return; SEEN.add(id); try{ localStorage.setItem('vistos',JSON.stringify([...SEEN])); }catch(_){} if(tl.paint) tl.paint(); }
 function markSel(){
   if(!tl.selRing) return;
   const p=st.sel&&tl.pos.find(d=>d[2].i===st.sel);
   tl.selRing.attr('opacity',p?1:0); if(p) tl.selRing.attr('cx',p[0]).attr('cy',p[1]);
   document.querySelectorAll('.entry').forEach(n=>n.classList.toggle('sel',n.dataset.id===st.sel));
 }
-function drawLegend(){ $('#legend').innerHTML=['c','p','f','n'].map(k=>`<span><i style="background:var(${STN[k]})"></i>${ST[k].t}</span>`).join('')+`<span><i style="border:1.5px solid var(--star);background:none"></i>${i18('Data só com mês ou ano','Date with only month or year')}</span><span><svg width="10" height="10" viewBox="-6 -6 12 12" aria-hidden="true"><path d="M0,-6 L6,0 L0,6 L-6,0Z" fill="var(--gold)"/></svg>${i18('Fato de mercado','Market fact')}</span>`; }
+function drawLegend(){ $('#legend').innerHTML=['c','p','f','n'].map(k=>`<span><i style="background:var(${STN[k]})"></i>${ST[k].t}</span>`).join('')+`<span><i style="border:1.5px solid var(--star);background:none"></i>${i18('Data só com mês ou ano','Date with only month or year')}</span><span><svg width="10" height="10" viewBox="-6 -6 12 12" aria-hidden="true"><path d="M0,-6 L6,0 L0,6 L-6,0Z" fill="var(--gold)"/></svg>${i18('Fato de mercado','Market fact')}</span><span><i style="background:var(--seen);box-shadow:0 0 0 1px var(--night-ink)"></i>${i18('Já abertos por você','Already opened by you')}</span>`; }
 drawLegend();
 
 // ---------- lista ----------
@@ -793,7 +809,7 @@ const backBtn=back=>back?`<button class="back" type="button">${i18('‹ Voltar',
 function bindBack(back){ const b=$('#d-head .back'); if(b) b.onclick=back; }
 const LISTSRC=()=>i18('Lista Lucas Borin, lista de preços proféticos','Lucas Borin list, a prophetic price list');
 function openDrawer(e, back){
-  if(!e) return; st.sel=e.i; markSel();
+  if(!e) return; st.sel=e.i; markSel(); markSeen(e.i);
   $('#d-head').innerHTML=backBtn(back)+`<p class="muted" style="font-size:13px">${fmtD(e.d)}${e.dt==='r'?i18(' (recebido)',' (received)'):e.dt==='c'?i18(' (compartilhado)',' (shared)'):''}</p><h3 style="font-size:20px">${esc(tx(e.p))}</h3>`;
   const pr=(e.pr||[]).map(p=>`<span class="pill gold">${esc(tx(p[0]))} ${usd(p[1])}${p[2]?' · '+esc(tx(p[2])):''}</span>`).join('');
   const links=[]; if(e.u) links.push(`<a href="${esc(e.u)}" target="_blank" rel="noopener">${esc(e.ut||i18('Post no propheticmoney.com','Post on propheticmoney.com'))}</a>`); if(e.v) links.push(`<a href="${esc(e.v)}" target="_blank" rel="noopener">${i18('Vídeo ou post original','Original video or post')}</a>`);
@@ -1106,6 +1122,7 @@ st.orig = SRC==='all'?new Set(['s','l','sl','w']):SRC==='w'?new Set(['w']):new S
 applyStatic(); drawLang();
 drawSrc(); drawHead(); renderFuture();
 drawControls(); drawTimeline(); drawList(); drawPeople(); drawDeadlines(); drawAssets(); drawAsset();
+let zT; $('#zoom').addEventListener('input',e=>{ $('#zoom-v').textContent=e.target.value+'x'; clearTimeout(zT); zT=setTimeout(()=>setZoom(+e.target.value),120); });
 let rT; let lastW=innerWidth; addEventListener('resize',()=>{ if(Math.abs(innerWidth-lastW)<4) return; lastW=innerWidth; clearTimeout(rT); rT=setTimeout(()=>{drawTimeline();drawDeadlines();drawAsset();},150); });
 if(location.hash==='#moedas') document.getElementById('moedas').scrollIntoView();
 })();
