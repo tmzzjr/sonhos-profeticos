@@ -27,9 +27,9 @@ def with_web(dataset):
     extra = [e for e in json.load(open(WEB, encoding='utf-8')) if e.get('i') not in have]
     meta = dict(dataset.get('meta') or {})
     meta['metodo'] = list(meta.get('metodo') or []) + [
-        f'A fonte "Scraped from web" reúne {len(extra)} sonhos com Shiba Inu e LUNC achados no YouTube (vídeos e comentários), '
+        f'A fonte "Scraped from web" reúne {len(extra)} sonhos com SHIB, LUNC, XRP, XLM, BNB Frog e PEPE achados no YouTube (vídeos e comentários, inclusive todos os do canal Prophetic Insight), '
         'Reddit, 4chan /biz/, TikTok, X, Facebook, Instagram, Binance Square e Stocktwits, em inglês, português e espanhol, '
-        'coletados em 09/10/2026. Cada um tem o link da fonte. Não passam pelo sync diário e não entram nas escadas de preço.']
+        'coletados entre 09 e 11/10/2026. Cada um tem o link da fonte. Não passam pelo sync diário e não entram nas escadas de preço.']
     return dict(dataset, E=dataset['E'] + extra, meta=meta)
 
 
